@@ -119,15 +119,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   --w: clamp(190px, min(270px, 27svh), 270px);
   position: relative;
   width: var(--w);
-  margin-top: auto;
+  margin-top: clamp(8px, 2svh, 24px);
   margin-bottom: clamp(12px, 3svh, 32px);
-  padding-top: 1.5rem;
 }
 .portrait::before {
   content: "";
   position: absolute; left: 0; right: 0; bottom: 0;
-  height: 70%;
-  border-radius: 50% 50% 8px 8px / 36% 36% 8px 8px;
+  height: 64%;
+  border-radius: 50% 50% 6px 6px / 50% 50% 6px 6px;
   background:
     radial-gradient(90% 70% at 50% 18%, rgb(185 154 239 / .45), transparent 70%),
     linear-gradient(180deg, #5B36B0 0%, #3B2470 48%, #241A3E 100%);
