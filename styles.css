@@ -114,35 +114,15 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 }
 
 .portrait {
-  /* Cut-out photo over a violet disc: the head rises above the circle,
-     the shoulders are trimmed to its lower curve. */
-  --w: clamp(96px, 9vw, 150px);
-  --cy: 52.8%;                 /* disc centre, as a share of the photo height */
-  position: relative;
-  width: var(--w);
+  /* Framed headshot: an Athangudi-style quatrefoil frame, transparent outside. */
+  --w: clamp(130px, 13vw, 220px);
   flex: none;
-  margin-left: calc(var(--w) * -0.17);
-}
-.portrait::before {
-  content: "";
-  position: absolute; left: 0; bottom: 0;
-  width: 100%; aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(80% 70% at 50% 22%, rgb(185 154 239 / .45), transparent 70%),
-    linear-gradient(180deg, #5B36B0 0%, #3B2470 50%, #241A3E 100%);
-  opacity: .4;
+  width: var(--w);
+  margin-left: calc(var(--w) * -0.06);
 }
 .portrait img {
-  position: relative;
   width: 100%; height: auto;
-  /* everything above the disc's centre shows; below it, only what lies inside the disc */
-  -webkit-mask-image:
-    linear-gradient(#000 0 var(--cy), transparent var(--cy)),
-    radial-gradient(circle calc(var(--w) / 2) at 50% var(--cy), #000 calc(100% - 1px), transparent 100%);
-  mask-image:
-    linear-gradient(#000 0 var(--cy), transparent var(--cy)),
-    radial-gradient(circle calc(var(--w) / 2) at 50% var(--cy), #000 calc(100% - 1px), transparent 100%);
+  filter: drop-shadow(0 10px 18px rgb(0 0 0 / .45));
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -402,7 +382,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 @media (max-width: 1080px) {
   .layout, .site-footer { grid-template-columns: 1fr; }
   .intro { max-width: 620px; }
-  .portrait { --w: clamp(96px, 26vw, 150px); margin-left: -4px; }
+  .portrait { --w: clamp(120px, 34vw, 170px); margin-left: -4px; }
   .mural { margin-top: clamp(40px, 7vw, 64px); }
 }
 
@@ -410,7 +390,6 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .site-header { padding-top: 18px; padding-bottom: 10px; }
   .intro__row { gap: 16px; }
   .intro h1 { font-size: clamp(1.9rem, 8.4vw, 2.4rem); }
-  .intro h1 .nowrap { white-space: normal; }
   .role { font-size: 1.05rem; }
   .monogram { font-size: 1.8rem; }
   .nav { gap: 0; }
