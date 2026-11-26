@@ -256,7 +256,7 @@ if __name__ == "__main__":
 
     # Light-theme variant: a clean cream in place of the warm ivory, no mottle
     # and a finer grain, so the tiles stay crisp on a pale page.
-    IVORY = "#FFFAE5"
+    IVORY = "#FCF4D8"
     light = OUT / "light"
     light.mkdir(exist_ok=True)
     for i, (name, fn) in enumerate(TILES.items()):
