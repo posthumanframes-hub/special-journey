@@ -89,9 +89,10 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   display: flex; flex-direction: column;
   position: sticky; top: clamp(12px, 3vw, 48px);   /* stays in view while the tiles scroll */
 }
-/* Introduction on the left, headshot on the right, centred on each other. */
+/* Introduction on the left, headshot on the right; the text's last line
+   (the short rule) sits level with the bottom of the photo. */
 .intro__row {
-  display: flex; align-items: center;
+  display: flex; align-items: flex-end;
   gap: clamp(16px, 2vw, 32px);
 }
 .intro__text { flex: 1; min-width: 0; }
