@@ -121,8 +121,76 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   width: var(--w);
   margin-left: 0;
 }
-.portrait img {
-  width: 100%; height: auto;
+.portrait { position: relative; }
+.portrait img { position: relative; width: 100%; height: auto; }
+.portrait__disc, .portrait__frame, .hero-deco, .scroll-cue { display: none; }
+
+/* ------------------------------------------------------------ desktop hero -- */
+@media (min-width: 1081px) {
+  /* The first screen is the introduction alone; Work starts below the fold. */
+  .intro {
+    position: relative;
+    min-height: calc(100svh - clamp(110px, 10vw, 140px));
+    justify-content: center;
+    padding: 0 7% 0 15%;
+  }
+  .intro__row { align-items: center; }
+  .intro h1 { font-size: clamp(3rem, 4.1vw, 4.6rem); }
+  .role { font-size: clamp(1.35rem, 1.75vw, 1.9rem); margin-top: 1rem; }
+  .short-rule { width: 56px; margin-top: 2rem; border-top-width: 1px; }
+  .portrait { --w: clamp(240px, 20vw, 330px); margin-right: 4%; }
+
+  /* A thin rectangle behind the photo, a smaller offset line to its left,
+     and a soft violet disc rising behind its top-right corner. */
+  .portrait__frame, .portrait__disc { display: block; position: absolute; pointer-events: none; }
+  .portrait__frame {
+    left: 14%; right: 0; top: 4%; bottom: 0;
+    border: 1px solid rgb(241 223 173 / .7);
+  }
+  .portrait__frame::before {
+    content: ""; position: absolute;
+    left: -15%; top: 12%; bottom: 0; width: 15%;
+    border: 1px solid rgb(241 223 173 / .55); border-right: 0; border-bottom: 0;
+  }
+  .portrait__disc {
+    width: 62%; aspect-ratio: 1; right: -24%; top: -12%;
+    border-radius: 50%;
+    background:
+      radial-gradient(circle at 35% 30%, rgb(185 154 239 / .35), transparent 60%),
+      radial-gradient(circle, #4A2F86 0%, #2E1D57 70%, #241845 100%);
+    opacity: .75;
+  }
+
+  /* A long lilac arc that sweeps down and runs along the bottom of the screen. */
+  .hero-deco { display: block; position: absolute; inset: 0; pointer-events: none; }
+  .hero-orbit {
+    position: absolute; left: 2%; right: 9%; top: 6%; bottom: 13%;
+    border-left: 1px solid rgb(185 154 239 / .55);
+    border-bottom: 1px solid rgb(185 154 239 / .55);
+    border-bottom-left-radius: min(26vw, 380px) min(32svh, 340px);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 35%);
+            mask-image: linear-gradient(to bottom, transparent, #000 35%);
+  }
+  .hero-spark { position: absolute; width: 18px; height: 18px; }
+  .hero-spark--end { right: calc(9% - 9px); bottom: calc(13% - 9px); fill: var(--lilac); }
+  .hero-spark--knot { left: calc(2% + min(26vw, 380px) - 9px); bottom: calc(13% - 9px); fill: var(--ivory); }
+
+  /* Scroll cue: a vertical line dropping from the arc, with a label. */
+  .scroll-cue {
+    display: flex; align-items: flex-start; gap: 14px; padding-top: 30px;
+    position: absolute; left: calc(2% + min(26vw, 380px)); bottom: 0; height: 13%;
+    padding-left: 18px;
+    font: 500 .72rem/1 var(--sans); letter-spacing: .24em; text-transform: uppercase;
+    color: var(--ivory-soft); text-decoration: none;
+  }
+  .scroll-cue::before {
+    content: ""; position: absolute; left: 0; top: 9px; bottom: 0; width: 1px;
+    background: linear-gradient(rgb(241 223 173 / .6), rgb(241 223 173 / 0));
+  }
+  .scroll-cue span { transition: color 200ms; }
+  .scroll-cue span::after { content: " ↓"; letter-spacing: 0; color: var(--lilac); }
+  .scroll-cue:hover span { color: var(--lilac); }
+  .mural { margin-top: clamp(48px, 8vh, 96px); }
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -376,12 +444,6 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 
 /* ------------------------------------------------------------ responsive -- */
 /* Desktop: the intro group (text + headshot) sits at the right, text right-aligned. */
-@media (min-width: 1081px) {
-  .intro__row { justify-content: flex-end; }
-  .intro__text { text-align: right; }
-  .role { margin-left: auto; }
-  .short-rule { margin-left: auto; }
-}
 
 @media (max-width: 1240px) and (min-width: 1081px) {
   .group__label { letter-spacing: .18em; font-size: .68rem; }

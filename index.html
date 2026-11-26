@@ -35,6 +35,11 @@
 
   <main class="layout">
     <section class="intro" aria-labelledby="intro-title">
+      <div class="hero-deco" aria-hidden="true">
+        <span class="hero-orbit"></span>
+        <svg class="spark hero-spark hero-spark--knot"><use href="#spark"/></svg>
+        <svg class="spark hero-spark hero-spark--end"><use href="#spark"/></svg>
+      </div>
       <div class="intro__row">
         <div class="intro__text">
           <h1 id="intro-title">Hi, I am <span class="nowrap">Harini.<svg class="spark spark--title" aria-hidden="true"><use href="#spark"/></svg></span></h1>
@@ -42,9 +47,12 @@
           <hr class="short-rule">
         </div>
         <figure class="portrait">
-          <img src="assets/portrait-815.webp" srcset="assets/portrait-815.webp 815w, assets/portrait.webp 1629w" sizes="(max-width: 1080px) min(36vw, 240px), min(12vw, 210px)" width="815" height="1086" alt="Photograph of Harini: long dark hair with violet streaks, gold hoop earrings and a black ruffled-neck top.">
+          <span class="portrait__disc" aria-hidden="true"></span>
+          <span class="portrait__frame" aria-hidden="true"></span>
+          <img src="assets/portrait-815.webp" srcset="assets/portrait-815.webp 815w, assets/portrait.webp 1629w" sizes="(max-width: 1080px) min(36vw, 240px), min(20vw, 330px)" width="815" height="1086" alt="Photograph of Harini: long dark hair with violet streaks, gold hoop earrings and a black ruffled-neck top.">
         </figure>
       </div>
+      <a class="scroll-cue" href="#work"><span>Scroll to see work</span></a>
     </section>
 
     <div class="mural">
