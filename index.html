@@ -14,6 +14,7 @@
   <script>
     document.documentElement.classList.add('js');
     try { var t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch (e) {}
+    try { if (sessionStorage.getItem('hello')) document.documentElement.classList.add('seen'); else sessionStorage.setItem('hello', '1'); } catch (e) {}
   </script>
 </head>
 <body>
@@ -49,11 +50,13 @@
         <span class="hero-orbit"></span>
         <svg class="spark hero-spark hero-spark--knot"><use href="#spark"/></svg>
         <svg class="spark hero-spark hero-spark--end"><use href="#spark"/></svg>
+        <span class="tile-peek"><img class="art-dark" src="assets/tiles/nakshatra.svg" alt="" width="400" height="400"><img class="art-light" src="assets/tiles/light/nakshatra.svg" alt="" width="400" height="400"></span>
       </div>
       <div class="intro__row">
         <div class="intro__text">
-          <h1 id="intro-title">Hi, I am <span class="nowrap"><span class="name">Harini.</span><svg class="spark spark--title" aria-hidden="true"><use href="#spark"/></svg></span></h1>
-          <p class="role">Product designer, systems thinker &amp; <em>speculative design researcher.</em></p>
+          <h1 id="intro-title"><span class="hello">Hi, I am</span> <span class="nowrap"><span class="name">Harini.</span><button class="spark-btn" type="button" aria-label="Sparkle"><svg class="spark spark--title" aria-hidden="true"><use href="#spark"/></svg></button></span></h1>
+          <p class="role"><span class="sr-only">Product designer, systems thinker &amp; speculative design researcher.</span><span aria-hidden="true">Product designer, systems thinker&nbsp;&amp; <em class="rotator" data-phrases="speculative design researcher.|maker of curious artefacts.|student of everyday futures.">speculative design researcher.</em></span></p>
+          <p class="now"><span class="now__dot" aria-hidden="true"></span>Currently exploring rituals, memory &amp; machines</p>
           <hr class="short-rule">
         </div>
         <figure class="portrait">
@@ -218,11 +221,20 @@
       };
       var label = function () { btn.setAttribute('aria-label', dark() ? 'Switch to light theme' : 'Switch to dark theme'); };
       label();
-      btn.addEventListener('click', function () {
+      btn.addEventListener('click', function (e) {
         var next = dark() ? 'light' : 'dark';
-        root.dataset.theme = next;
-        try { localStorage.setItem('theme', next); } catch (e) {}
-        label();
+        var apply = function () {
+          root.dataset.theme = next;
+          try { localStorage.setItem('theme', next); } catch (err) {}
+          label();
+        };
+        // A circle grows out from the toggle (where supported, motion allowed).
+        if (!document.startViewTransition || matchMedia('(prefers-reduced-motion: reduce)').matches) { apply(); return; }
+        var r = btn.getBoundingClientRect(), x = r.left + r.width / 2, y = r.top + r.height / 2;
+        root.style.setProperty('--tx', x + 'px');
+        root.style.setProperty('--ty', y + 'px');
+        root.style.setProperty('--tr', Math.hypot(Math.max(x, innerWidth - x), Math.max(y, innerHeight - y)) + 'px');
+        document.startViewTransition(apply);
       });
       matchMedia('(prefers-color-scheme: dark)').addEventListener('change', label);
     })();

@@ -158,3 +158,91 @@
     }, { rootMargin: '0px 0px -25% 0px' }).observe(note.closest('h2'));
   }
 })();
+
+// Landing screen, round 2: sticky header state, sparkle burst, rotating
+// role phrase and layered cursor depth.
+(() => {
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  // 8 — the header gains a soft surface once the page has scrolled.
+  const header = document.querySelector('.site-header');
+  if (header) {
+    const onScroll = () => header.classList.toggle('is-stuck', window.scrollY > 24);
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  // 5 — the sparkle after the name scatters a few tiny sparkles.
+  const sparkBtn = document.querySelector('.spark-btn');
+  if (sparkBtn) {
+    sparkBtn.addEventListener('click', () => {
+      if (still.matches) return;
+      const r = sparkBtn.getBoundingClientRect();
+      const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+      const ns = 'http://www.w3.org/2000/svg';
+      for (let i = 0; i < 9; i++) {
+        const a = (i / 9) * Math.PI * 2 + Math.random() * 0.5;
+        const d = 34 + Math.random() * 38;
+        const bit = document.createElementNS(ns, 'svg');
+        bit.setAttribute('class', 'spark-bit');
+        bit.setAttribute('aria-hidden', 'true');
+        bit.innerHTML = '<use href="#spark"/>';
+        bit.style.left = `${cx}px`;
+        bit.style.top = `${cy}px`;
+        bit.style.setProperty('--bx', `${Math.cos(a) * d}px`);
+        bit.style.setProperty('--by', `${Math.sin(a) * d}px`);
+        const s = 6 + Math.random() * 8;
+        bit.style.width = bit.style.height = `${s}px`;
+        document.body.appendChild(bit);
+        setTimeout(() => bit.remove(), 1000);
+      }
+    });
+  }
+
+  // 3 — the last phrase of the role rotates once, then settles back on the
+  // title (under five seconds in all). Clicking the phrase cycles it again.
+  const rot = document.querySelector('.rotator');
+  if (rot) {
+    const phrases = (rot.dataset.phrases || '').split('|').filter(Boolean);
+    let i = 0, timer = 0;
+    const swap = (to) => {
+      rot.classList.add('is-out');
+      setTimeout(() => { rot.textContent = phrases[to]; rot.classList.remove('is-out'); }, 260);
+    };
+    const runOnce = (delay) => {
+      clearTimeout(timer);
+      if (still.matches || phrases.length < 2) return;
+      let step = 0;
+      const next = () => {
+        step++;
+        i = step % phrases.length;
+        swap(i);
+        if (step < phrases.length) timer = setTimeout(next, 1550);
+      };
+      timer = setTimeout(next, delay);
+    };
+    const seen = document.documentElement.classList.contains('seen');
+    runOnce(seen ? 1600 : 3200);
+    rot.addEventListener('click', () => runOnce(0));
+  }
+
+  // 4 — layered depth: decorations drift a few pixels with the cursor.
+  const hero = document.querySelector('.intro');
+  if (hero) {
+    let frame = 0;
+    hero.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse' || !finePointer.matches || still.matches) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = hero.getBoundingClientRect();
+        hero.style.setProperty('--px', (((e.clientX - r.left) / r.width) - 0.5).toFixed(3));
+        hero.style.setProperty('--py', (((e.clientY - r.top) / r.height) - 0.5).toFixed(3));
+      });
+    });
+    hero.addEventListener('pointerleave', () => {
+      hero.style.removeProperty('--px');
+      hero.style.removeProperty('--py');
+    });
+  }
+})();

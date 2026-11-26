@@ -267,7 +267,6 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 @media (max-width: 1080px) {
   .intro {
     position: relative;
-    overflow-x: clip;
     min-height: calc(100svh - 96px);
     padding: 0 0 0 9%;
   }
@@ -845,3 +844,164 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 .tile__link svg { width: 1em; height: .62em; }
 @container (max-width: 240px) { .tile__link { width: 28px; height: 28px; font-size: 13px; } }
 @container (max-width: 170px) { .tile__link { width: 26px; height: 26px; font-size: 12px; } }
+
+/* =====================================================================
+   Landing screen, round 2
+   ===================================================================== */
+
+/* 8 — header stays reachable; gains a soft surface once the page scrolls */
+.site-header {
+  position: sticky; top: 0; z-index: 20;
+  transition: background-color 300ms, box-shadow 300ms, padding 300ms;
+}
+.site-header.is-stuck {
+  padding-top: 14px; padding-bottom: 14px;
+  background: color-mix(in srgb, var(--bg) 82%, transparent);
+  -webkit-backdrop-filter: blur(12px) saturate(1.2);
+          backdrop-filter: blur(12px) saturate(1.2);
+  box-shadow: 0 1px 0 rgb(var(--orbit) / .18);
+}
+.group, #about, #contact { scroll-margin-top: 96px; }
+
+/* 5 — the sparkle after the name is a small button */
+.spark-btn {
+  display: inline-grid; place-items: center; vertical-align: .32em;
+  margin-left: .22em; padding: .12em; border: 0; border-radius: 50%;
+  background: none; color: inherit; cursor: pointer;
+  font-size: inherit; line-height: 0;
+}
+.spark-btn .spark--title { margin: 0; vertical-align: 0; transition: rotate 300ms var(--ease); }
+.spark-btn:hover .spark--title { rotate: 45deg; }
+.intro h1 .name + .spark-btn { font-size: 1em; }
+.spark-bit {
+  position: fixed; z-index: 30; width: 10px; height: 10px; pointer-events: none;
+  fill: var(--spark); translate: -50% -50%;
+  animation: spark-burst 900ms cubic-bezier(.2, .7, .3, 1) forwards;
+}
+.spark-bit:nth-child(odd) { fill: var(--spark-alt); }
+@keyframes spark-burst {
+  from { transform: translate(0, 0) scale(.4) rotate(0deg); opacity: 1; }
+  to   { transform: translate(var(--bx), var(--by)) scale(1) rotate(90deg); opacity: 0; }
+}
+
+/* 3 — the last phrase of the role rotates (once), cross-fading */
+.rotator { display: block; min-height: 1.5em; transition: opacity 260ms ease, translate 260ms ease; cursor: pointer; }
+.rotator.is-out { opacity: 0; translate: 0 .3em; }
+
+/* 2 — a quiet, current line */
+.now {
+  display: flex; align-items: center; gap: .6em;
+  margin-top: 1rem;
+  font: 400 .85rem/1.4 var(--sans); letter-spacing: .02em;
+  color: var(--muted-text);
+}
+.now__dot {
+  width: 6px; height: 6px; border-radius: 50%; flex: none;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px rgb(var(--orbit) / .18);
+}
+.short-rule { margin-top: 1.6rem; }
+
+/* 6 — a tile corner peeking in at the bottom-right, a hint of what's below */
+.tile-peek {
+  position: absolute; right: calc(-1 * var(--gutter) - 52px); bottom: calc(13% + 26px);
+  width: 128px; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
+  rotate: -8deg;
+  box-shadow: 0 10px 24px -10px var(--cast-2);
+  opacity: .9;
+}
+.tile-peek img { width: 100%; height: 100%; }
+.tile-peek .art-light { display: none; }
+:root:not([data-theme="dark"]) .tile-peek .art-light { display: block; }
+:root:not([data-theme="dark"]) .tile-peek .art-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tile-peek .art-light { display: none; }
+  :root:not([data-theme="light"]) .tile-peek .art-dark { display: block; }
+}
+/* the peek bleeds off the screen edge, not the content margin */
+.layout { overflow-x: clip; }
+.intro { overflow-x: visible; }
+
+/* 4 — layered depth: decorations drift by different amounts with the cursor */
+.portrait__disc  { translate: calc(var(--px, 0) * 10px) calc(var(--py, 0) * 10px); }
+.portrait__frame { translate: calc(var(--px, 0) * 4px)  calc(var(--py, 0) * 4px); }
+.portrait img    { translate: calc(var(--px, 0) * -2px) calc(var(--py, 0) * -2px); }
+.hero-orbit      { translate: calc(var(--px, 0) * 3px)  calc(var(--py, 0) * 3px); }
+.tile-peek       { translate: calc(var(--px, 0) * 7px)  calc(var(--py, 0) * 5px); }
+.portrait__disc, .portrait__frame, .portrait img, .hero-orbit, .tile-peek { transition: translate 600ms cubic-bezier(.2, .7, .3, 1); }
+
+/* 7 — a dot travels down the scroll-cue line a few times */
+.scroll-cue::after {
+  content: ""; position: absolute; left: -2px; top: 9px; width: 5px; height: 5px; border-radius: 50%;
+  background: var(--accent); opacity: 0;
+  animation: cue-dot 1.6s ease-in 3;
+  animation-delay: 3s;
+}
+@keyframes cue-dot {
+  0%   { top: 9px; opacity: 0; }
+  20%  { opacity: 1; }
+  100% { top: calc(100% - 6px); opacity: 0; }
+}
+
+/* 1 — hello sequence, first visit only */
+@keyframes rise { from { opacity: 0; translate: 0 12px; } to { opacity: 1; translate: 0 0; } }
+@keyframes write { from { clip-path: inset(-25% 100% -25% 0); } to { clip-path: inset(-25% -5% -25% 0); } }
+@keyframes draw-rule { from { scale: 0 1; } to { scale: 1 1; } }
+@keyframes appear { from { opacity: 0; scale: .96; } to { opacity: 1; scale: 1; } }
+html.js:not(.seen) .intro .hello      { animation: rise 600ms var(--ease) 150ms both; }
+html.js:not(.seen) .intro .name       { display: inline-block; animation: write 1100ms cubic-bezier(.5, .1, .4, 1) 550ms both; }
+html.js:not(.seen) .intro .spark-btn  { animation: appear 400ms var(--ease) 1550ms both; }
+html.js:not(.seen) .intro .role       { animation: rise 600ms var(--ease) 1500ms both; }
+html.js:not(.seen) .intro .now        { animation: rise 600ms var(--ease) 1700ms both; }
+html.js:not(.seen) .intro .short-rule { transform-origin: left; animation: draw-rule 600ms var(--ease) 1850ms both; }
+html.js:not(.seen) .intro .portrait   { animation: appear 900ms var(--ease) 900ms both; }
+html.js:not(.seen) .intro .hero-orbit { animation: orbit-draw 1500ms cubic-bezier(.6, 0, .25, 1) 1200ms both; }
+html.js:not(.seen) .intro .hero-spark--knot { animation-delay: 2300ms, 3000ms; }
+html.js:not(.seen) .intro .hero-spark--end  { animation-delay: 2700ms, 3400ms; }
+html.js:not(.seen) .intro .tile-peek  { animation: appear 700ms var(--ease) 2600ms both; }
+html.js:not(.seen) .intro .scroll-cue { animation: cue-in 700ms var(--ease) 2800ms both; }
+html.js:not(.seen) .scroll-cue::after { animation-delay: 3.6s; }
+/* returning in the same visit: everything is already in place */
+html.seen .hero-orbit, html.seen .hero-spark, html.seen .scroll-cue, html.seen .spark--title { animation: none; }
+html.seen .scroll-cue::after { animation: none; }
+
+/* 10 — theme switch: a circle grows out from the toggle */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+::view-transition-new(root) { animation: theme-reveal 650ms cubic-bezier(.4, 0, .2, 1); }
+@keyframes theme-reveal {
+  from { clip-path: circle(0 at var(--tx, 100%) var(--ty, 0)); }
+  to   { clip-path: circle(var(--tr, 150vmax) at var(--tx, 100%) var(--ty, 0)); }
+}
+
+/* 9 — phones: compose the first screen higher, give the photo more presence */
+@media (max-width: 1080px) {
+  .intro { min-height: calc(100svh - 84px); justify-content: flex-start; padding-top: clamp(48px, 11svh, 120px); }
+  .hero-orbit { top: 2%; }
+  .tile-peek { width: 84px; right: calc(-1 * var(--gutter) - 34px); bottom: calc(14% + 18px); border-radius: 7px; }
+  .now { font-size: .78rem; margin-top: .8rem; }
+}
+@media (max-width: 640px) {
+  .intro { padding-top: clamp(36px, 9svh, 90px); }
+  .portrait { --w: clamp(140px, 41vw, 220px); }
+  .now { align-items: flex-start; }
+  .now__dot { margin-top: .45em; }
+  .site-header.is-stuck { padding-top: 10px; padding-bottom: 10px; }
+  .group, #about, #contact { scroll-margin-top: 72px; }
+}
+@media (max-width: 380px) {
+  .portrait { --w: 36vw; }
+  .now { font-size: .72rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html.js .intro *, .scroll-cue::after { animation: none !important; }
+  .portrait__disc, .portrait__frame, .portrait img, .hero-orbit, .tile-peek { translate: none; transition: none; }
+  .rotator { transition: none; }
+  .spark-bit { display: none; }
+  ::view-transition-new(root) { animation: none; }
+}
+@media (max-width: 640px) {
+  /* every phrase gets two lines on phones, so the rotation never shifts the layout */
+  .rotator { min-height: 3em; }
+}
+@media (max-width: 380px) { .rotator { min-height: 4.5em; } }
