@@ -114,15 +114,29 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .lede { max-width: 32ch; font-size: 1.02rem; line-height: 1.65; color: var(--ivory-soft); }
 
 .portrait {
+  /* Cut-out photo standing in a violet arch; the head rises above the
+     arch's curve, the shoulders are cut flat along its base. */
+  --w: clamp(190px, min(270px, 27svh), 270px);
+  position: relative;
+  width: var(--w);
   margin-top: auto;
+  margin-bottom: clamp(12px, 3svh, 32px);
   padding-top: 1.5rem;
 }
+.portrait::before {
+  content: "";
+  position: absolute; left: 0; right: 0; bottom: 0;
+  height: 70%;
+  border-radius: 50% 50% 8px 8px / 36% 36% 8px 8px;
+  background:
+    radial-gradient(90% 70% at 50% 18%, rgb(185 154 239 / .45), transparent 70%),
+    linear-gradient(180deg, #5B36B0 0%, #3B2470 48%, #241A3E 100%);
+  box-shadow: inset 0 1px 0 rgb(241 223 173 / .12);
+}
 .portrait img {
-  width: auto; height: auto;
-  max-width: min(100%, 300px);
-  max-height: 31svh;           /* stays within the lower third of the column */
-  min-height: 170px;
-  object-fit: contain; object-position: left bottom;
+  position: relative;
+  width: 100%; height: auto;
+  clip-path: inset(0 0 0 0 round 0 0 8px 8px);
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -374,8 +388,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .layout, .site-footer { grid-template-columns: 1fr; }
   .intro { max-width: 620px; position: static; height: auto; min-height: 0; }
   .intro h1 { max-width: none; }
-  .portrait { margin-top: 2rem; }
-  .portrait img { max-height: 280px; }
+  .portrait { --w: 230px; margin-top: 2rem; }
   .mural { padding-top: clamp(40px, 7vw, 64px); }
 }
 
