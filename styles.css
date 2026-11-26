@@ -1005,15 +1005,3 @@ html.seen .scroll-cue::after { animation: none; }
   .rotator { min-height: 3em; }
 }
 @media (max-width: 380px) { .rotator { min-height: 4.5em; } }
-
-/* Hair breeze: a hair-only copy of the photo sways over the still original. */
-.portrait .portrait__hair {
-  position: absolute; left: 0; top: 0; width: 100%; height: auto;
-  -webkit-mask: url(assets/hair-mask.png) 0 0 / 100% 100% no-repeat;
-          mask: url(assets/hair-mask.png) 0 0 / 100% 100% no-repeat;
-  filter: url(#hair-breeze);
-  pointer-events: none;
-  opacity: 0; transition: opacity 180ms linear;
-}
-.portrait.is-breezy .portrait__hair { opacity: 1; }
-@media (prefers-reduced-motion: reduce) { .portrait .portrait__hair { display: none; } }

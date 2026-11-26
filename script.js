@@ -246,37 +246,3 @@
     });
   }
 })();
-
-// Hair breeze: a short sway through the hair at the end of the hello sequence,
-// and again when the photo is hovered or tapped. It always settles (no loop).
-(() => {
-  const disp = document.getElementById('hair-disp');
-  const photo = document.querySelector('.portrait');
-  if (!disp || !photo) return;
-  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let running = false, lastEnd = 0;
-
-  const breeze = (duration = 2600, strength = 9) => {
-    if (running || still.matches || performance.now() - lastEnd < 600) return;
-    running = true;
-    photo.classList.add('is-breezy');
-    const start = performance.now();
-    const step = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      const envelope = Math.sin(Math.PI * t);                     // rise and settle
-      const sway = Math.sin(((now - start) / 1150) * Math.PI * 2); // back and forth
-      disp.setAttribute('scale', (strength * envelope * sway).toFixed(2));
-      if (t < 1) requestAnimationFrame(step);
-      else {
-        disp.setAttribute('scale', '0'); running = false; lastEnd = performance.now();
-        photo.classList.remove('is-breezy');
-      }
-    };
-    requestAnimationFrame(step);
-  };
-
-  const seen = document.documentElement.classList.contains('seen');
-  setTimeout(() => breeze(2800, 9), seen ? 900 : 3300);
-  photo.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') breeze(); });
-  photo.addEventListener('click', () => breeze());
-})();
