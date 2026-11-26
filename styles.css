@@ -132,6 +132,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
     radial-gradient(80% 70% at 50% 22%, rgb(185 154 239 / .45), transparent 70%),
     linear-gradient(180deg, #5B36B0 0%, #3B2470 50%, #241A3E 100%);
   box-shadow: inset 0 1px 0 rgb(241 223 173 / .12);
+  opacity: .8;
 }
 .portrait img {
   position: relative;
