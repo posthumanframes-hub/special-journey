@@ -375,6 +375,14 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 .contact-links a:hover { text-decoration-color: var(--lilac); }
 
 /* ------------------------------------------------------------ responsive -- */
+/* Desktop: the intro group (text + headshot) sits at the right, text right-aligned. */
+@media (min-width: 1081px) {
+  .intro__row { justify-content: flex-end; }
+  .intro__text { text-align: right; }
+  .role { margin-left: auto; }
+  .short-rule { margin-left: auto; }
+}
+
 @media (max-width: 1240px) and (min-width: 1081px) {
   .group__label { letter-spacing: .18em; font-size: .68rem; }
   .rule:not(.rule--long) { display: none; }
