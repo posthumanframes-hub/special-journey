@@ -78,8 +78,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ---------------------------------------------------------------- layout -- */
 .layout {
   display: grid;
-  grid-template-columns: minmax(460px, 36%) 1fr;
-  column-gap: clamp(32px, 4vw, 80px);
+  grid-template-columns: 1fr;
   padding: clamp(12px, 3vw, 48px) var(--gutter) 0;
   align-items: start;
 }
@@ -87,15 +86,15 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ----------------------------------------------------------------- intro -- */
 .intro {
   display: flex; flex-direction: column;
-  position: sticky; top: clamp(12px, 3vw, 48px);   /* stays in view while the tiles scroll */
+  max-width: 760px;
 }
 /* Introduction on the left, headshot on the right; the text's last line
    (the short rule) sits level with the bottom of the photo. */
 .intro__row {
   display: flex; align-items: flex-end;
-  gap: clamp(16px, 2vw, 32px);
+  gap: clamp(24px, 4vw, 72px);
 }
-.intro__text { flex: 1; min-width: 0; }
+.intro__text { flex: 0 1 auto; min-width: 0; }
 .intro h1 {
   font: 400 clamp(2.2rem, 2.6vw, 3.1rem)/1.05 var(--serif);
   letter-spacing: -.01em;
@@ -130,6 +129,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ----------------------------------------------------------------- mural -- */
 .mural {
   container: mural / inline-size;
+  margin-top: clamp(56px, 10vh, 120px);
   display: flex; flex-direction: column; gap: clamp(72px, 14vh, 150px);
   padding-top: .9rem; padding-bottom: clamp(56px, 12vh, 140px);
 }
