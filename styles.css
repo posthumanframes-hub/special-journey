@@ -188,14 +188,43 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   margin-top: calc(var(--y, 0) * 100% / var(--span) + var(--seam) / 2);
 }
 
-/* Work — a tight cluster of mixed sizes; seams touch like a laid floor. */
-.tiles--work { --h: 16; }
-.tiles--work > :nth-child(1) { --x: 0; --y: 2; --s: 8; }
-.tiles--work > :nth-child(2) { --x: 8; --y: 0; --s: 4; }
-.tiles--work > :nth-child(3) { --x: 8; --y: 4; --s: 6; }
-.tiles--work > :nth-child(4) { --x: 14; --y: 5; --s: 4; }
-.tiles--work > :nth-child(5) { --x: 2; --y: 10; --s: 6; }
-.tiles--work > :nth-child(6) { --x: 8; --y: 10; --s: 4; }
+
+/* Work — a bento grid: one large square, wide and small tiles, packed into
+   a neat rectangle with even gutters. Wide and tall tiles repeat their
+   motif, the way Athangudi tiles continue across a floor. */
+.tiles.tiles--work {
+  --cols: 5;
+  --gap: 14px;
+  --cell: calc((min(100cqw, 1120px) - (var(--cols) - 1) * var(--gap)) / var(--cols));
+  display: grid;
+  grid-template-columns: repeat(var(--cols), var(--cell));
+  grid-auto-rows: var(--cell);
+  gap: var(--gap);
+  grid-template-areas:
+    "a a b b c"
+    "a a d d e";
+  aspect-ratio: auto;
+}
+.tiles--work:has(> :nth-child(6)) {
+  --cols: 6;
+  grid-template-areas:
+    "a a b b c f"
+    "a a d d e f";
+}
+.tiles--work > .tile {
+  position: relative;
+  width: auto; margin: 0; aspect-ratio: auto;
+}
+.tiles--work > :nth-child(1) { grid-area: a; }
+.tiles--work > :nth-child(2) { grid-area: b; --bx: 2; }
+.tiles--work > :nth-child(3) { grid-area: c; }
+.tiles--work > :nth-child(4) { grid-area: d; --bx: 2; }
+.tiles--work > :nth-child(5) { grid-area: e; }
+.tiles--work > :nth-child(6) { grid-area: f; --by: 2; }
+.tiles--work .tile__front img { display: none; }
+.tiles--work .tile__front {
+  background: var(--art) repeat 0 0 / calc(100% / var(--bx, 1)) calc(100% / var(--by, 1));
+}
 
 /* Wander — each tile starts as a copy of its Work counterpart (same place,
    same size) and drifts out to its own position and size as the section
@@ -219,19 +248,19 @@ h1, h2, h3, p, figure, ul { margin: 0; }
    Wander's horizontal positions stretch to use the full width. */
 @container mural (width >= 1200px) {
   .tiles { --span: 36; }
-  .tiles--work { --ox: 10; }
   .tiles--wander { --xs: 1.6; }
 }
 
 /* Narrower mural: four base tiles across. */
 @container mural (width < 900px) {
   .tiles { --span: 16; }
-  .tiles--work > :nth-child(1) { --x: 0; --y: 2; --s: 8; }
-  .tiles--work > :nth-child(2) { --x: 8; --y: 0; --s: 4; }
-  .tiles--work > :nth-child(3) { --x: 8; --y: 4; --s: 6; }
-  .tiles--work > :nth-child(4) { --x: 12; --y: 0; --s: 4; }
-  .tiles--work > :nth-child(5) { --x: 2; --y: 10; --s: 6; }
-  .tiles--work > :nth-child(6) { --x: 8; --y: 10; --s: 4; }
+  .tiles.tiles--work { --cols: 4; --gap: 12px;
+    grid-template-areas: "a a b b" "a a c e" "d d d d"; }
+  .tiles--work:has(> :nth-child(6)) { --cols: 4;
+    grid-template-areas: "a a b b" "a a c e" "d d f f"; }
+  .tiles--work > :nth-child(4) { --bx: 4; }
+  .tiles--work:has(> :nth-child(6)) > :nth-child(4) { --bx: 2; }
+  .tiles--work > :nth-child(6) { --bx: 2; --by: 1; }
   .tiles--wander { --h: 34; }
   .tiles--wander:has(> :nth-child(6)) { --h: 40; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
@@ -245,14 +274,12 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* Phone: base tiles are half the width, the largest span it. */
 @container mural (width < 560px) {
   .tiles { --span: 8; }
-  .tiles--work { --h: 22; }
-  .tiles--work:has(> :nth-child(6)) { --h: 26; }
-  .tiles--work > :nth-child(1) { --x: 0; --y: 0; --s: 8; }
-  .tiles--work > :nth-child(2) { --x: 0; --y: 8; --s: 4; }
-  .tiles--work > :nth-child(3) { --x: 4; --y: 10; --s: 4; }
-  .tiles--work > :nth-child(4) { --x: 0; --y: 12; --s: 4; }
-  .tiles--work > :nth-child(5) { --x: 2; --y: 16; --s: 6; }
-  .tiles--work > :nth-child(6) { --x: 0; --y: 22; --s: 4; }
+  .tiles.tiles--work { --cols: 2; --gap: 10px;
+    grid-template-areas: "a a" "a a" "b b" "c e" "d d"; }
+  .tiles--work:has(> :nth-child(6)) { --cols: 2;
+    grid-template-areas: "a a" "a a" "b b" "c e" "d d" "f f"; }
+  .tiles--work > :nth-child(4),
+  .tiles--work:has(> :nth-child(6)) > :nth-child(4) { --bx: 2; }
   .tiles--wander { --h: 51; }
   .tiles--wander:has(> :nth-child(6)) { --h: 61; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
@@ -267,7 +294,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   position: relative;
   aspect-ratio: 1;
   perspective: 1100px;
-  container-type: inline-size;
+  container-type: size;
   border-radius: 6px;
   cursor: pointer;
   -webkit-tap-highlight-color: transparent;
@@ -313,38 +340,38 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .tile__back {
   transform: rotateY(180deg);
   display: flex; flex-direction: column; justify-content: center;
-  padding: 11cqi 11cqi 10cqi;
+  padding: 11cqmin 11cqmin 10cqmin;
   background:
-    radial-gradient(circle at 0 0, var(--lilac) 0 9cqi, transparent calc(9cqi + .5px)),
-    radial-gradient(circle at 100% 0, var(--lilac) 0 9cqi, transparent calc(9cqi + .5px)),
-    radial-gradient(circle at 100% 100%, var(--lilac) 0 9cqi, transparent calc(9cqi + .5px)),
-    radial-gradient(circle at 0 100%, var(--lilac) 0 9cqi, transparent calc(9cqi + .5px)),
+    radial-gradient(circle at 0 0, var(--lilac) 0 9cqmin, transparent calc(9cqmin + .5px)),
+    radial-gradient(circle at 100% 0, var(--lilac) 0 9cqmin, transparent calc(9cqmin + .5px)),
+    radial-gradient(circle at 100% 100%, var(--lilac) 0 9cqmin, transparent calc(9cqmin + .5px)),
+    radial-gradient(circle at 0 100%, var(--lilac) 0 9cqmin, transparent calc(9cqmin + .5px)),
     var(--ivory);
   color: var(--ink);
   --edge: #B8A271;
   --edge-dark: #8C7A50;
   box-shadow:
     inset 0 2px 0 rgb(255 255 255 / .5), inset 0 -3px 0 rgb(0 0 0 / .14),
-    inset 0 0 0 1.5px var(--ink), inset 0 0 0 5cqi var(--ivory), inset 0 0 0 calc(5cqi + 1px) var(--violet),
+    inset 0 0 0 1.5px var(--ink), inset 0 0 0 5cqmin var(--ivory), inset 0 0 0 calc(5cqmin + 1px) var(--violet),
     0 1px 0 var(--edge), 0 2px 0 var(--edge), 0 3px 0 var(--edge),
     0 4px 0 var(--edge-dark), 0 5px 0 var(--edge-dark), 0 6px 0 var(--edge-dark),
     0 8px 6px -2px rgb(0 0 0 / .55),
     0 22px 34px -8px rgb(0 0 0 / .7);
 }
 .tile__title {
-  font: 500 clamp(1rem, 10cqi, 2rem)/1.08 var(--serif);
+  font: 500 clamp(1rem, 10cqmin, 2rem)/1.08 var(--serif);
   color: var(--ink); letter-spacing: -.005em;
 }
 .tile__desc {
   margin-top: .55em;
-  font-size: clamp(.75rem, 6.2cqi, 1.1rem); line-height: 1.4;
+  font-size: clamp(.75rem, 6.2cqmin, 1.1rem); line-height: 1.4;
   max-width: 30ch;
   color: #3A3346;
 }
 .tile__link {
   display: inline-flex; align-items: center; gap: .45em; align-self: flex-start;
   margin-top: auto; padding-top: .5em;
-  font: 600 clamp(.75rem, 6.4cqi, 1.05rem)/1 var(--sans);
+  font: 600 clamp(.75rem, 6.4cqmin, 1.05rem)/1 var(--sans);
   color: var(--violet); text-decoration: none;
 }
 .tile__link svg { width: 1.15em; height: .75em; transition: transform 200ms var(--ease); }
@@ -420,7 +447,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .group__head .rule:not(.rule--long) { display: none; }
   .group__label { order: 5; flex-basis: 100%; white-space: normal; letter-spacing: .2em; font-size: .7rem; }
   .group__head .rule--long { display: none; }
-  .tile__back { padding: 9cqi 9cqi 8cqi; }
+  .tile__back { padding: 9cqmin 9cqmin 8cqmin; }
 }
 
 @media (max-width: 380px) {
