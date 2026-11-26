@@ -119,8 +119,8 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 }
 
 .portrait {
-  /* Headshot: the photo set inside an Athangudi-style quatrefoil tile frame. */
-  --w: clamp(150px, 16vw, 270px);
+  /* Headshot: the photo exactly as supplied, on its own transparent background. */
+  --w: clamp(130px, 13vw, 220px);
   flex: none;
   width: var(--w);
   margin-left: 0;
