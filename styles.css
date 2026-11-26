@@ -985,3 +985,99 @@ html.seen .scroll-cue::after { animation: none; }
   .rotator { min-height: 3em; }
 }
 @media (max-width: 380px) { .rotator { min-height: 4.5em; } }
+
+/* =====================================================================
+   Tile reverse, part of the page: page-coloured surface, the hero's thin
+   frame line and lilac rule, and a crisp quarter of the tile's own motif
+   tucked into the bottom-left corner.
+   ===================================================================== */
+:root { --back-bg: #FCF4D8; --back-edge: #D9CBA3; --back-edge-2: #BCAC80; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) { --back-bg: #1F1A2A; --back-edge: #130F1B; --back-edge-2: #0B0810; }
+}
+:root[data-theme="dark"] { --back-bg: #1F1A2A; --back-edge: #130F1B; --back-edge-2: #0B0810; }
+
+.tile__back {
+  --q: calc(8cqi + 26px);
+  background: var(--back-bg);
+  color: var(--heading);
+  --edge: var(--back-edge);
+  --edge-dark: var(--back-edge-2);
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / .18), inset 0 -2px 4px rgb(0 0 0 / .12),
+    0 0 0 1px rgb(var(--frame) / .25),
+    0 2px 1px var(--edge), 0 4px 2px var(--edge), 0 6px 3px var(--edge-dark),
+    0 10px 12px -4px var(--cast-1),
+    0 22px 36px -12px var(--cast-2);
+}
+/* quarter of the motif, its centre on the bottom-left corner */
+.tile__back::before {
+  inset: auto auto 0 0;
+  width: var(--q); height: var(--q);
+  z-index: -1;
+  background: var(--art) 100% 0 / calc(var(--q) * 2) calc(var(--q) * 2) no-repeat;
+  filter: none; opacity: 1;
+  border-bottom-left-radius: 10px;
+}
+/* the hero's thin frame line, inset */
+.tile__back::after {
+  inset: 5cqi;
+  background: none;
+  border: 1px solid rgb(var(--frame) / .4);
+  border-radius: 6px;
+  z-index: -1;
+}
+.tile__title { color: var(--heading); }
+.tile__title::before { color: var(--accent); }
+.tile__title::after { background: rgb(var(--orbit) / .65); }
+.tile__desc { color: var(--muted-text); }
+.tile__link { color: var(--heading); border-color: rgb(var(--frame) / .6); background: var(--back-bg); }
+.tile__link:hover, .tile:has(.tile__link:focus-visible) .tile__link {
+  background: var(--accent); border-color: var(--accent); color: var(--back-bg);
+}
+@container (max-width: 240px) { .tile__back { --q: calc(7cqi + 24px); } .tile__back::after { inset: 4cqi; } }
+@container (max-width: 170px) { .tile__back { --q: calc(6cqi + 22px); } }
+
+/* 2 — hand-laid: a hair of rotation, a slight shade shift, one worn spot */
+.tile { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(var(--rz, 0deg)); }
+.tile__front img { filter: brightness(var(--shade, 1)); }
+.tile__front::after {
+  background:
+    radial-gradient(circle at var(--wx, 50%) var(--wy, 4%), rgb(255 255 255 / .16) 0 3%, transparent 9%),
+    radial-gradient(120% 90% at 30% 15%, rgb(255 255 255 / .14), transparent 55%),
+    linear-gradient(160deg, transparent 55%, rgb(0 0 0 / .22));
+}
+
+/* 8 — the tile turns the way the cursor came in */
+.tile[data-flip="up"] .tile__back, .tile[data-flip="down"] .tile__back { transform: rotateX(180deg); }
+.tile.is-active[data-flip="left"]  .tile__inner { transform: rotateY(-180deg); }
+.tile.is-active[data-flip="right"] .tile__inner { transform: rotateY(180deg); }
+.tile.is-active[data-flip="up"]    .tile__inner { transform: rotateX(180deg); }
+.tile.is-active[data-flip="down"]  .tile__inner { transform: rotateX(-180deg); }
+
+/* 10 — the cluster responds: the turned tile lifts, its neighbours recede */
+.tile__inner { transition: transform var(--flip) var(--ease), top 260ms var(--ease), bottom 260ms var(--ease); }
+.tile.is-active .tile__inner { top: -5px; bottom: 5px; }
+.tile__face { transition: box-shadow 260ms var(--ease), filter 300ms var(--ease); }
+.tiles:has(.tile.is-active) > .tile:not(.is-active) .tile__face { filter: saturate(.7) brightness(.94); }
+:root[data-theme="dark"] .tiles:has(.tile.is-active) > .tile:not(.is-active) .tile__face { filter: saturate(.7) brightness(.8); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tiles:has(.tile.is-active) > .tile:not(.is-active) .tile__face { filter: saturate(.7) brightness(.8); }
+}
+
+/* 11 — touch: a light press tips the tile forward before it turns */
+.tile.is-pressed { --rx: 10deg; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tile[data-flip] .tile__back { transform: none; }
+  .tile.is-active[data-flip] .tile__inner { transform: none; }
+  .tile.is-active .tile__inner { top: 0; bottom: 0; }
+  .tile.is-pressed { --rx: 0deg; }
+}
+/* the motif corner: a clean quarter-disc showing only the tile's centre motif */
+.tile__back::before {
+  background-size: calc(var(--q) * 3.4) calc(var(--q) * 3.4);
+  background-position: calc(var(--q) * -1.7) calc(var(--q) * -0.7);
+  border-radius: 0 100% 0 10px;
+  box-shadow: inset -1px 1px 0 rgb(var(--frame) / .55);
+}

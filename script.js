@@ -15,12 +15,32 @@
   tiles.forEach((tile) => {
     const link = tile.querySelector('.tile__link');
 
+    let hideTimer = 0;
     tile.addEventListener('pointerenter', (e) => {
-      if (e.pointerType === 'mouse') show(tile);
+      if (e.pointerType !== 'mouse') return;
+      clearTimeout(hideTimer);
+      // 8 — turn the tile the way the cursor came in (only while it's face-up)
+      if (active !== tile) {
+        const r = tile.getBoundingClientRect();
+        const dx = (e.clientX - r.left) / r.width - 0.5;
+        const dy = (e.clientY - r.top) / r.height - 0.5;
+        tile.dataset.flip = Math.abs(dx) >= Math.abs(dy) ? (dx < 0 ? 'right' : 'left') : (dy < 0 ? 'down' : 'up');
+      }
+      show(tile);
     });
     tile.addEventListener('pointerleave', (e) => {
-      if (e.pointerType === 'mouse' && active === tile && !tile.contains(document.activeElement)) show(null);
+      if (e.pointerType !== 'mouse' || active !== tile || tile.contains(document.activeElement)) return;
+      // 7 — a short grace period, so crossing a gap doesn't flicker the tile
+      hideTimer = setTimeout(() => { if (active === tile && !tile.matches(':hover')) show(null); }, 140);
     });
+
+    // 11 — on touch, a light press tips the tile, hinting that it turns over
+    tile.addEventListener('pointerdown', (e) => {
+      if (e.pointerType !== 'touch' || active === tile) return;
+      tile.classList.add('is-pressed');
+    });
+    ['pointerup', 'pointercancel', 'pointerleave'].forEach((type) =>
+      tile.addEventListener(type, () => tile.classList.remove('is-pressed')));
 
     tile.addEventListener('focusin', () => show(tile));
     tile.addEventListener('focusout', (e) => {
@@ -33,6 +53,7 @@
       if (active !== tile) {
         // First tap reveals; it never navigates.
         e.preventDefault();
+        if (!tile.dataset.flip || e.pointerType !== 'mouse') tile.dataset.flip = 'right';
         show(tile);
         return;
       }
@@ -245,4 +266,17 @@
       hero.style.removeProperty('--py');
     });
   }
+})();
+
+// 2 — hand-laid imperfection: each tile gets a tiny, stable rotation, a slight
+// shade shift and a worn spot, as real pressed tiles do.
+(() => {
+  const rand = (seed) => { const x = Math.sin(seed * 9301 + 49297) * 233280; return x - Math.floor(x); };
+  document.querySelectorAll('.tile').forEach((tile, i) => {
+    const a = rand(i + 1), b = rand(i + 11), c = rand(i + 21), d = rand(i + 31);
+    tile.style.setProperty('--rz', `${((a - 0.5) * 1.2).toFixed(2)}deg`);
+    tile.style.setProperty('--shade', (0.97 + b * 0.06).toFixed(3));
+    tile.style.setProperty('--wx', `${Math.round(c * 100)}%`);
+    tile.style.setProperty('--wy', `${d < 0.5 ? 4 : 96}%`);
+  });
 })();
