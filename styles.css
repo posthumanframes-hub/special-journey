@@ -88,7 +88,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .intro {
   display: flex; flex-direction: column;
   position: sticky; top: clamp(12px, 3vw, 48px);
-  height: calc(100svh - clamp(96px, 9vw, 150px));
+  height: calc(100svh - clamp(130px, 11vw, 190px));
   min-height: 600px;
 }
 .intro h1 {
@@ -114,15 +114,27 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .lede { max-width: 32ch; font-size: 1.02rem; line-height: 1.65; color: var(--ivory-soft); }
 
 .portrait {
+  /* photo diameter; the kolam ring is drawn around it, offset up and to
+     the right so it crosses the photo along its lower-left edge */
+  --d: clamp(150px, min(240px, 24svh), 240px);
+  position: relative;
+  width: var(--d); aspect-ratio: 1;
   margin-top: auto;
-  padding-top: 2rem;
+  margin-left: calc(var(--d) * .06);
+  margin-bottom: calc(var(--d) * .14);
 }
 .portrait img {
-  width: auto; height: auto;
-  max-width: min(100%, 360px);
-  max-height: 31svh;           /* stays within the lower third of the column */
-  min-height: 180px;
-  object-fit: contain; object-position: left bottom;
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.kolam-ring {
+  position: absolute;
+  width: 140%; height: 140%;
+  left: calc(-20% + var(--d) * .14);
+  top: calc(-20% - var(--d) * .06);
+  overflow: visible;
+  pointer-events: none;
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -347,8 +359,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .layout, .site-footer { grid-template-columns: 1fr; }
   .intro { max-width: 620px; position: static; height: auto; min-height: 0; }
   .intro h1 { max-width: none; }
-  .portrait { padding-top: 1.75rem; }
-  .portrait img { max-height: 260px; min-height: 0; }
+  .portrait { --d: 200px; margin-top: 4.5rem; }
   .mural { padding-top: clamp(40px, 7vw, 64px); }
 }
 
