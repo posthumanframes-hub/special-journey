@@ -1184,3 +1184,4 @@ html.seen .scroll-cue::after { animation: none; }
 .sources__pub { font-style: italic; }
 .sources a { color: var(--text); text-underline-offset: 3px; }
 .sources li:target { color: var(--heading); }
+.site-footer > .footer-note { grid-column: 1 / -1; max-width: none; margin-top: clamp(8px, 2vh, 20px); padding-top: 1.2rem; border-top: 1px solid var(--divider); }
