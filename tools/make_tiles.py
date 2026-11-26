@@ -68,12 +68,12 @@ TEXTURE = f"""
 </defs>"""
 
 
-def svg(body, seed):
+def svg(body, seed, mottle=.28, grain=.55):
     return (f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="400" height="400">'
             + TEXTURE.replace("SEED", str(seed))
             + body
-            + '<rect width="200" height="200" filter="url(#mottle)" opacity=".28"/>'
-            + '<rect width="200" height="200" filter="url(#grain)" opacity=".55"/>'
+            + (f'<rect width="200" height="200" filter="url(#mottle)" opacity="{str(mottle).lstrip('0')}"/>' if mottle else "")
+            + f'<rect width="200" height="200" filter="url(#grain)" opacity="{str(grain).lstrip('0')}"/>'
             + f'<rect x="1.5" y="1.5" width="197" height="197" fill="none" stroke="{INK}" stroke-width="3"/>'
             + "</svg>")
 
@@ -253,3 +253,12 @@ if __name__ == "__main__":
     for i, (name, fn) in enumerate(TILES.items()):
         (OUT / f"{name}.svg").write_text(svg(fn(), seed=i * 7 + 3))
         print("wrote", name)
+
+    # Light-theme variant: a clean cream in place of the warm ivory, no mottle
+    # and a finer grain, so the tiles stay crisp on a pale page.
+    IVORY = "#FFFAE5"
+    light = OUT / "light"
+    light.mkdir(exist_ok=True)
+    for i, (name, fn) in enumerate(TILES.items()):
+        (light / f"{name}.svg").write_text(svg(fn(), seed=i * 7 + 3, mottle=0, grain=.22))
+        print("wrote light/", name)

@@ -791,3 +791,14 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .tile__desc { margin-top: .35em; font-size: clamp(.7rem, 6.6cqi, .85rem); -webkit-line-clamp: 3; }
   .tile__link { padding: .5em .8em; font-size: clamp(.7rem, 6.4cqi, .82rem); }
 }
+
+/* Tile artwork per theme: a crisper cream set on the light page. */
+.tile__front .art-light { display: none; }
+:root:not([data-theme="dark"]) .tile__front .art-light { display: block; }
+:root:not([data-theme="dark"]) .tile__front .art-dark { display: none; }
+:root:not([data-theme="dark"]) .tile__back::before { background-image: var(--art-light, var(--art)); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .tile__front .art-light { display: none; }
+  :root:not([data-theme="light"]) .tile__front .art-dark { display: block; }
+  :root:not([data-theme="light"]) .tile__back::before { background-image: var(--art); }
+}
