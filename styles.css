@@ -715,3 +715,79 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .js .hero-orbit, .js .hero-spark, .js .spark--title, .js .scroll-cue { animation: none; }
   .js .scribble { clip-path: none; transition: none; }
 }
+
+/* =====================================================================
+   Tile reverse: the tile's own pattern seen through a deep plum veil,
+   with an index number, ivory type and an outlined "View project" pill.
+   ===================================================================== */
+.tiles { counter-reset: tile; }
+.tile { counter-increment: tile; }
+.tile__back {
+  isolation: isolate;
+  justify-content: flex-start;
+  padding: 10cqi 10cqi 9cqi;
+  background: #241A3A;
+  color: #F1DFAD;
+  --edge: #1A1230;
+  --edge-dark: #110C20;
+  box-shadow:
+    inset 0 1px 1px rgb(255 255 255 / .14), inset 0 -2px 4px rgb(0 0 0 / .4),
+    inset 0 0 0 1px rgb(185 154 239 / .35),
+    0 0 0 1px rgb(21 18 28 / .35),
+    0 2px 1px var(--edge), 0 4px 2px var(--edge), 0 6px 3px var(--edge-dark),
+    0 10px 12px -4px var(--cast-1),
+    0 22px 36px -12px var(--cast-2);
+}
+/* the front's own artwork, blurred and veiled */
+.tile__back::before {
+  content: ""; position: absolute; inset: -12%; z-index: -2;
+  background: var(--art) center / cover no-repeat;
+  filter: blur(7px) saturate(1.1);
+  opacity: .9;
+}
+.tile__back::after {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  background:
+    linear-gradient(160deg, rgb(43 30 72 / .55) 0%, rgb(27 20 38 / .86) 75%),
+    radial-gradient(120% 80% at 20% 0%, rgb(185 154 239 / .18), transparent 60%);
+}
+/* index number, top-left, with a short rule */
+.tile__title::before {
+  content: counter(tile, decimal-leading-zero);
+  display: flex; align-items: center; gap: .6em;
+  margin-bottom: 1.1em;
+  font: 500 clamp(.62rem, 4.6cqi, .8rem)/1 var(--sans);
+  letter-spacing: .22em;
+  color: #B99AEF;
+}
+.tile__title::after {
+  content: ""; display: block; width: 2.2em; height: 1px; margin-top: .55em;
+  background: rgb(241 223 173 / .45);
+}
+.tile__title {
+  color: #F1DFAD;
+  font-weight: 400;
+}
+.tile__desc { color: rgb(241 223 173 / .78); }
+.tile__link {
+  padding: .7em 1em; margin-top: auto;
+  border: 1px solid rgb(241 223 173 / .5); border-radius: 999px;
+  color: #F1DFAD;
+  transition: background-color 200ms, border-color 200ms, color 200ms;
+}
+.tile__link:hover, .tile:has(.tile__link:focus-visible) .tile__link {
+  background: #F1DFAD; border-color: #F1DFAD; color: #241A3A;
+}
+
+/* Smaller tiles: tighter spacing, no rule, description capped at three lines. */
+.tile__desc {
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden;
+}
+@container (max-width: 240px) {
+  .tile__back { padding: 8cqi 8cqi 7cqi; }
+  .tile__title::before { margin-bottom: .6em; }
+  .tile__title::after { display: none; }
+  .tile__title { font-size: clamp(.95rem, 10cqi, 1.2rem); }
+  .tile__desc { margin-top: .35em; font-size: clamp(.7rem, 6.6cqi, .85rem); -webkit-line-clamp: 3; }
+  .tile__link { padding: .5em .8em; font-size: clamp(.7rem, 6.4cqi, .82rem); }
+}
