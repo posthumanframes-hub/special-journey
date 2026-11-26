@@ -688,14 +688,15 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   from { clip-path: inset(0 100% 0 0); }
   to   { clip-path: inset(0 0 0 0); }
 }
-.js .hero-spark { animation: spark-in 500ms var(--ease) both, twinkle 7s ease-in-out infinite; }
-.js .hero-spark--knot { animation-delay: 1100ms, 3s; }
-.js .hero-spark--end  { animation-delay: 1900ms, 5.5s; }
-.js .spark--title     { animation: twinkle 7s ease-in-out 2.4s infinite; transform-box: fill-box; transform-origin: center; }
+.js .hero-spark { animation: spark-in 500ms var(--ease) both, twinkle 1.6s ease-in-out 1; }
+.js .hero-spark--knot { animation-delay: 1100ms, 1900ms; }
+.js .hero-spark--end  { animation-delay: 1900ms, 2700ms; }
+.js .spark--title     { animation: twinkle 1.6s ease-in-out 3.2s 1; transform-box: fill-box; transform-origin: center; }
 @keyframes spark-in { from { opacity: 0; scale: .2; } to { opacity: 1; scale: 1; } }
+/* Each sparkle twinkles once, then rests (WCAG 2.2.2: no endless motion). */
 @keyframes twinkle {
-  0%, 88%, 100% { scale: 1; rotate: 0deg; opacity: 1; }
-  93%           { scale: 1.35; rotate: 45deg; opacity: .85; }
+  0%, 100% { scale: 1; rotate: 0deg; opacity: 1; }
+  50%      { scale: 1.35; rotate: 45deg; opacity: .85; }
 }
 .js .scroll-cue { animation: cue-in 700ms var(--ease) 1800ms both; }
 @keyframes cue-in { from { opacity: 0; translate: 0 -6px; } to { opacity: 1; translate: 0 0; } }
@@ -740,7 +741,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 }
 /* the front's own artwork, blurred and veiled */
 .tile__back::before {
-  content: ""; position: absolute; inset: -12%; z-index: -2;
+  content: ""; position: absolute; inset: 0; z-index: -2;
   background: var(--art) center / cover no-repeat;
   filter: blur(7px) saturate(1.1);
   opacity: .9;
@@ -803,17 +804,44 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   :root:not([data-theme="light"]) .tile__back::before { background-image: var(--art); }
 }
 
-/* Reverse: no label, just an arrow in the bottom-left corner. */
+/* Reverse: no label, just a small arrow in the bottom-right corner.
+   Descriptions are never cut; the arrow sits clear of the text. */
+.tile__desc { display: block; -webkit-line-clamp: unset; overflow: visible; }
 .tile__link {
-  position: absolute; left: 10cqi; bottom: 9cqi;
-  width: clamp(34px, 16cqi, 48px); aspect-ratio: 1; padding: 0; margin: 0;
+  position: absolute; right: 8cqi; bottom: 8cqi; left: auto;
+  width: clamp(26px, 11cqi, 34px); aspect-ratio: 1; padding: 0; margin: 0;
   justify-content: center;
   border-radius: 50%;
 }
-.tile__link svg { width: 44%; height: 27%; flex: none; }
-.tile__back { padding-bottom: calc(9cqi + clamp(34px, 16cqi, 48px) + 5cqi); }
+.tile__link svg { width: 46%; height: 28%; flex: none; }
+.tile__back { padding-bottom: calc(8cqi + clamp(26px, 11cqi, 34px) + 2cqi); }
 @container (max-width: 240px) {
-  .tile__link { left: 8cqi; bottom: 7cqi; width: clamp(30px, 17cqi, 38px); padding: 0; }
-  .tile__back { padding-bottom: calc(7cqi + clamp(30px, 17cqi, 38px) + 4cqi); }
-  .tile__desc { -webkit-line-clamp: 2; }
+  .tile__back { padding: 7cqi 7cqi calc(7cqi + 26px + 2cqi); }
+  .tile__link { right: 7cqi; bottom: 7cqi; width: 26px; }
+  .tile__title::before { margin-bottom: .45em; }
+  .tile__title { font-size: clamp(.9rem, 9cqi, 1.1rem); }
+  .tile__desc { font-size: clamp(.68rem, 6.2cqi, .8rem); line-height: 1.35; }
 }
+@container (max-width: 170px) {
+  .tile__back { padding: 6cqi 6cqi calc(6cqi + 24px + 2cqi); }
+  .tile__title::before { display: none; }
+  .tile__link { right: 6cqi; bottom: 6cqi; width: 24px; }
+  .tile__desc { margin-top: .25em; }
+}
+
+/* If a visitor enlarges text spacing, the back scrolls rather than hiding text. */
+.tile__back { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgb(241 223 173 / .4) transparent; }
+/* Arrow sits in the flow, pushed to the bottom-right: it can never cover text. */
+.tile__link {
+  position: relative; right: auto; bottom: auto; left: auto;
+  align-self: flex-end; margin-top: auto; flex: none;
+}
+.tile__back { padding-bottom: 8cqi; }
+.tile__desc { margin-bottom: 2cqi; }
+@container (max-width: 240px) { .tile__back { padding-bottom: 7cqi; } .tile__link { right: auto; bottom: auto; } }
+@container (max-width: 170px) { .tile__back { padding-bottom: 6cqi; } .tile__link { right: auto; bottom: auto; } }
+/* Fixed circle and icon sizes so the arrow stays round. */
+.tile__link { width: 32px; height: 32px; aspect-ratio: auto; font-size: 14px; }
+.tile__link svg { width: 1em; height: .62em; }
+@container (max-width: 240px) { .tile__link { width: 28px; height: 28px; font-size: 13px; } }
+@container (max-width: 170px) { .tile__link { width: 26px; height: 26px; font-size: 12px; } }
