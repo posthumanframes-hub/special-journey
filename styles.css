@@ -29,8 +29,9 @@
   --cast-2: rgb(27 20 38 / .22);
   --skip-bg: #1B1426; --skip-fg: #F9F6E9;
 
-  --serif: "Newsreader", "Iowan Old Style", Georgia, serif;
-  --sans: "Figtree", "Segoe UI", system-ui, sans-serif;
+  --serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --sans: "DM Sans", "Segoe UI", system-ui, sans-serif;
+  --hand: "Caveat", "Bradley Hand", cursive;   /* used only for the name and one note */
 
   --gutter: clamp(16px, 4vw, 64px);
   --flip: 420ms;
@@ -157,18 +158,25 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .intro__text { flex: 0 1 auto; min-width: 0; }
 .intro h1 {
   font: 400 clamp(2.2rem, 2.6vw, 3.1rem)/1.05 var(--serif);
-  letter-spacing: -.01em;
+  font-optical-sizing: auto;
+  letter-spacing: -.015em;
+  color: var(--heading);
+}
+/* The name, handwritten: Caveat 500. */
+.intro h1 .name {
+  font: 500 1.45em/1 var(--hand);
+  letter-spacing: 0;
   color: var(--heading);
 }
 .spark--title { width: .42em; height: .42em; margin-left: .3em; vertical-align: .32em; }
 
 .role {
   margin-top: .8rem;
-  font: italic 400 clamp(1.1rem, 1.35vw, 1.45rem)/1.3 var(--serif);
-  color: var(--heading);
-  max-width: 26ch;
+  font: 400 clamp(1rem, 1.2vw, 1.25rem)/1.5 var(--sans);
+  color: var(--text);
+  max-width: 30ch;
 }
-.role em { color: var(--accent); }
+.role em { font-style: normal; color: var(--accent); }
 
 .short-rule {
   width: 36px; height: 0; margin: 1.2rem 0 0;
@@ -197,7 +205,8 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   }
   .intro__row { align-items: center; }
   .intro h1 { font-size: clamp(3rem, 4.1vw, 4.6rem); }
-  .role { font-size: clamp(1.35rem, 1.75vw, 1.9rem); margin-top: 1rem; }
+  .intro h1 .name { font-size: 72px; }
+  .role { font-size: clamp(1.1rem, 1.25vw, 1.3rem); margin-top: 1.2rem; }
   .short-rule { width: 56px; margin-top: 2rem; border-top-width: 1px; }
   .portrait { --w: clamp(240px, 20vw, 330px); margin-right: 4%; }
 
@@ -258,6 +267,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 @media (max-width: 1080px) {
   .intro {
     position: relative;
+    overflow-x: clip;
     min-height: calc(100svh - 96px);
     padding: 0 0 0 9%;
   }
@@ -275,9 +285,11 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 }
 @media (max-width: 380px) {
   .intro { padding-left: 7%; }
+  .intro h1 { font-size: 1.65rem; }
+  .intro h1 .name { font-size: 1.4em; }
   .intro__row { gap: 12px; }
   .portrait { --w: 34vw; margin-right: 2%; }
-  .role { font-size: .95rem; }
+  .role { font-size: .9rem; }
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -293,8 +305,19 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   margin-bottom: clamp(20px, 3vh, 36px);
 }
 .group__head h2 {
+  position: relative;
   font: 400 clamp(2.4rem, 3.6vw, 3.4rem)/1 var(--serif);
-  color: var(--heading); letter-spacing: -.01em;
+  color: var(--heading); letter-spacing: -.015em;
+}
+/* A single handwritten aside, tucked above-right of "Wander". */
+.scribble {
+  position: absolute; left: 100%; bottom: 78%;
+  margin-left: -.35em;
+  font: 500 clamp(1.15rem, 1.5vw, 1.5rem)/1 var(--hand);
+  letter-spacing: 0; white-space: nowrap;
+  color: var(--accent);
+  transform: rotate(-6deg); transform-origin: left bottom;
+  pointer-events: none;
 }
 .group__label {
   font: 500 .74rem/1.3 var(--sans); letter-spacing: .26em; text-transform: uppercase;
@@ -547,12 +570,15 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .site-header { padding-top: 18px; padding-bottom: 10px; }
   .intro__row { gap: 16px; }
   .intro h1 { font-size: clamp(1.8rem, 8vw, 2.3rem); }
-  .role { font-size: 1.05rem; }
+  .intro h1 .name { font-size: 1.3em; }
+  .spark--title { margin-left: .15em; }
+  .role { font-size: 1rem; }
   .monogram { font-size: 1.8rem; }
   .nav { gap: 0; }
   .nav a { font-size: .7rem; letter-spacing: .1em; padding: 0 .45rem; }
   .group__head { flex-wrap: wrap; row-gap: .5rem; }
-  .group__head h2 { flex: 1 0 auto; }
+  .group__head h2 { flex: 0 0 auto; }
+  .group__head > .spark { margin-left: auto; }
   .group__head .rule:not(.rule--long) { display: none; }
   .group__label { order: 5; flex-basis: 100%; white-space: normal; letter-spacing: .2em; font-size: .7rem; }
   .group__head .rule--long { display: none; }
