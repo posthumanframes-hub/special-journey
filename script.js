@@ -40,8 +40,8 @@
     });
   });
 
-  // Wander drift: each Wander tile starts at the matching Work tile's place in
-  // the cluster and eases out to its own, wider position as the section
+  // Wander drift: each Wander tile starts at the matching Work tile's place
+  // and size in the cluster and eases out to its own, wider position as the section
   // scrolls into view. With reduced motion, tiles simply sit in place.
   const workList = document.querySelector('.tiles--work');
   const wanderList = document.querySelector('.tiles--wander');
@@ -59,6 +59,8 @@
         const dy = home ? home.offsetTop - tile.offsetTop : 0;
         tile.style.setProperty('--dx', `${dx}px`);
         tile.style.setProperty('--dy', `${dy}px`);
+        const ds = home && tile.offsetWidth ? home.offsetWidth / tile.offsetWidth : 1;
+        tile.style.setProperty('--ds', ds.toFixed(4));
       });
     };
 
