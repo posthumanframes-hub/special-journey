@@ -204,7 +204,6 @@ h1, h2, h3, p, figure, ul { margin: 0; }
     "a a b b c"
     "a a d d e";
   aspect-ratio: auto;
-  padding: 24px 0 36px;
 }
 .tiles--work:has(> :nth-child(6)) {
   --cols: 6;
@@ -214,15 +213,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 }
 .tiles--work > .tile {
   position: relative;
-  top: var(--lift, 0px);       /* columns sit a little up or down */
   width: auto; margin: 0; aspect-ratio: auto;
 }
 .tiles--work > :nth-child(1) { grid-area: a; }
-.tiles--work > :nth-child(2) { grid-area: b; --bx: 2; --lift: 30px; }
-.tiles--work > :nth-child(3) { grid-area: c; --lift: -20px; }
-.tiles--work > :nth-child(4) { grid-area: d; --bx: 2; --lift: 30px; }
-.tiles--work > :nth-child(5) { grid-area: e; --lift: -20px; }
-.tiles--work > :nth-child(6) { grid-area: f; --by: 2; --lift: 12px; }
+.tiles--work > :nth-child(2) { grid-area: b; --bx: 2; }
+.tiles--work > :nth-child(3) { grid-area: c; }
+.tiles--work > :nth-child(4) { grid-area: d; --bx: 2; }
+.tiles--work > :nth-child(5) { grid-area: e; }
+.tiles--work > :nth-child(6) { grid-area: f; --by: 2; }
 .tiles--work .tile__front img { display: none; }
 .tiles--work .tile__front {
   background: var(--art) repeat 0 0 / calc(100% / var(--bx, 1)) calc(100% / var(--by, 1));
@@ -263,12 +261,6 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   .tiles--work > :nth-child(4) { --bx: 4; }
   .tiles--work:has(> :nth-child(6)) > :nth-child(4) { --bx: 2; }
   .tiles--work > :nth-child(6) { --bx: 2; --by: 1; }
-  .tiles--work > :nth-child(1) { --lift: -14px; }
-  .tiles--work > :nth-child(2),
-  .tiles--work > :nth-child(3),
-  .tiles--work > :nth-child(5) { --lift: 16px; }
-  .tiles--work > :nth-child(4),
-  .tiles--work > :nth-child(6) { --lift: 16px; }
   .tiles--wander { --h: 34; }
   .tiles--wander:has(> :nth-child(6)) { --h: 40; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
@@ -288,10 +280,6 @@ h1, h2, h3, p, figure, ul { margin: 0; }
     grid-template-areas: "a a" "a a" "b b" "c e" "d d" "f f"; }
   .tiles--work > :nth-child(4),
   .tiles--work:has(> :nth-child(6)) > :nth-child(4) { --bx: 2; }
-  .tiles--work > .tile { --lift: 0px; }
-  .tiles--work > :nth-child(3) { --lift: -6px; }
-  .tiles--work > :nth-child(5) { --lift: 6px; }
-  .tiles.tiles--work { row-gap: 18px; padding: 8px 0 12px; }
   .tiles--wander { --h: 51; }
   .tiles--wander:has(> :nth-child(6)) { --h: 61; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
