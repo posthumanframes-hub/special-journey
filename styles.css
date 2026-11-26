@@ -191,14 +191,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* Wander — each tile starts as a copy of its Work counterpart (same place,
    same size) and drifts out to its own position and size as the section
    scrolls in. script.js sets --dx/--dy/--ds and --p. */
-.tiles--wander { --h: 18; }
-.tiles--wander:has(> :nth-child(6)) { --h: 19; }
-.tiles--wander > :nth-child(1) { --x: 1; --y: 1; --s: 6; }
-.tiles--wander > :nth-child(2) { --x: 10; --y: 4; --s: 4; }
-.tiles--wander > :nth-child(3) { --x: 16; --y: 0; --s: 8; }
-.tiles--wander > :nth-child(4) { --x: 3; --y: 12; --s: 4; }
-.tiles--wander > :nth-child(5) { --x: 12; --y: 12; --s: 6; }
-.tiles--wander > :nth-child(6) { --x: 20; --y: 15; --s: 4; }
+.tiles--wander { --h: 27; }
+.tiles--wander:has(> :nth-child(6)) { --h: 27; }
+.tiles--wander > :nth-child(1) { --x: 0; --y: 1; --s: 6; }
+.tiles--wander > :nth-child(2) { --x: 11; --y: 0; --s: 4; }
+.tiles--wander > :nth-child(3) { --x: 17; --y: 8; --s: 8; }
+.tiles--wander > :nth-child(4) { --x: 5; --y: 13; --s: 4; }
+.tiles--wander > :nth-child(5) { --x: 10; --y: 21; --s: 6; }
+.tiles--wander > :nth-child(6) { --x: 20; --y: 22; --s: 4; }
 .tiles--wander > .tile {
   transform-origin: 0 0;
   translate: calc(var(--dx, 0px) * (1 - var(--p, 1))) calc(var(--dy, 0px) * (1 - var(--p, 1)));
@@ -215,14 +215,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   .tiles--work > :nth-child(4) { --x: 12; --y: 0; --s: 4; }
   .tiles--work > :nth-child(5) { --x: 2; --y: 10; --s: 6; }
   .tiles--work > :nth-child(6) { --x: 8; --y: 10; --s: 4; }
-  .tiles--wander { --h: 26; }
-  .tiles--wander:has(> :nth-child(6)) { --h: 31; }
+  .tiles--wander { --h: 34; }
+  .tiles--wander:has(> :nth-child(6)) { --h: 40; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
-  .tiles--wander > :nth-child(2) { --x: 10; --y: 3; --s: 4; }
-  .tiles--wander > :nth-child(3) { --x: 5; --y: 9; --s: 8; }
-  .tiles--wander > :nth-child(4) { --x: 0; --y: 19; --s: 4; }
-  .tiles--wander > :nth-child(5) { --x: 10; --y: 20; --s: 6; }
-  .tiles--wander > :nth-child(6) { --x: 3; --y: 27; --s: 4; }
+  .tiles--wander > :nth-child(2) { --x: 11; --y: 4; --s: 4; }
+  .tiles--wander > :nth-child(3) { --x: 2; --y: 12; --s: 8; }
+  .tiles--wander > :nth-child(4) { --x: 12; --y: 22; --s: 4; }
+  .tiles--wander > :nth-child(5) { --x: 0; --y: 28; --s: 6; }
+  .tiles--wander > :nth-child(6) { --x: 9; --y: 36; --s: 4; }
 }
 
 /* Phone: base tiles are half the width, the largest span it. */
@@ -236,14 +236,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   .tiles--work > :nth-child(4) { --x: 0; --y: 12; --s: 4; }
   .tiles--work > :nth-child(5) { --x: 2; --y: 16; --s: 6; }
   .tiles--work > :nth-child(6) { --x: 0; --y: 22; --s: 4; }
-  .tiles--wander { --h: 41; }
-  .tiles--wander:has(> :nth-child(6)) { --h: 48; }
+  .tiles--wander { --h: 51; }
+  .tiles--wander:has(> :nth-child(6)) { --h: 61; }
   .tiles--wander > :nth-child(1) { --x: 0; --y: 0; --s: 6; }
-  .tiles--wander > :nth-child(2) { --x: 4; --y: 9; --s: 4; }
-  .tiles--wander > :nth-child(3) { --x: 0; --y: 16; --s: 8; }
-  .tiles--wander > :nth-child(4) { --x: 1; --y: 28; --s: 4; }
-  .tiles--wander > :nth-child(5) { --x: 2; --y: 35; --s: 6; }
-  .tiles--wander > :nth-child(6) { --x: 4; --y: 44; --s: 4; }
+  .tiles--wander > :nth-child(2) { --x: 4; --y: 11; --s: 4; }
+  .tiles--wander > :nth-child(3) { --x: 0; --y: 21; --s: 8; }
+  .tiles--wander > :nth-child(4) { --x: 1; --y: 35; --s: 4; }
+  .tiles--wander > :nth-child(5) { --x: 2; --y: 45; --s: 6; }
+  .tiles--wander > :nth-child(6) { --x: 4; --y: 57; --s: 4; }
 }
 
 .tile {
