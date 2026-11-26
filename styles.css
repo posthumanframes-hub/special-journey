@@ -120,7 +120,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   --w: clamp(130px, 13vw, 220px);
   flex: none;
   width: var(--w);
-  margin-left: calc(var(--w) * -0.06);
+  margin-left: 0;
 }
 .portrait img {
   width: 100%; height: auto;
@@ -160,6 +160,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   position: relative;
   aspect-ratio: var(--span) / var(--h);
   list-style: none; padding: 0;
+  margin-inline: calc(var(--seam) / -2);   /* outer tile edges line up with the headings */
 }
 .tiles > .tile {
   position: absolute; left: 0; top: 0;
@@ -382,8 +383,13 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 
 @media (max-width: 1080px) {
   .layout, .site-footer { grid-template-columns: 1fr; }
-  .intro { max-width: 620px; position: static; }
-  .portrait { --w: clamp(150px, 44vw, 210px); margin-left: -4px; }
+  /* stacked: centre the headshot and introduction */
+  .intro { position: static; max-width: 620px; margin-inline: auto; text-align: center; }
+  .intro__row { align-items: center; }
+  .portrait { --w: clamp(225px, 66vw, 315px); margin-left: 0; }
+  .intro h1 { padding-left: .62em; }   /* balance the sparkle so the words sit centred */
+  .role { margin-inline: auto; }
+  .short-rule { margin-inline: auto; }
   .mural { margin-top: clamp(40px, 7vw, 64px); }
 }
 
