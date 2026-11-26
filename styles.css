@@ -902,23 +902,6 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 }
 .short-rule { margin-top: 1.6rem; }
 
-/* 6 — a tile corner peeking in at the bottom-right, a hint of what's below */
-.tile-peek {
-  position: absolute; right: calc(-1 * var(--gutter) - 52px); bottom: calc(13% + 26px);
-  width: 128px; aspect-ratio: 1; border-radius: 10px; overflow: hidden;
-  rotate: -8deg;
-  box-shadow: 0 10px 24px -10px var(--cast-2);
-  opacity: .9;
-}
-.tile-peek img { width: 100%; height: 100%; }
-.tile-peek .art-light { display: none; }
-:root:not([data-theme="dark"]) .tile-peek .art-light { display: block; }
-:root:not([data-theme="dark"]) .tile-peek .art-dark { display: none; }
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .tile-peek .art-light { display: none; }
-  :root:not([data-theme="light"]) .tile-peek .art-dark { display: block; }
-}
-/* the peek bleeds off the screen edge, not the content margin */
 .layout { overflow-x: clip; }
 .intro { overflow-x: visible; }
 
@@ -927,8 +910,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 .portrait__frame { translate: calc(var(--px, 0) * 4px)  calc(var(--py, 0) * 4px); }
 .portrait img    { translate: calc(var(--px, 0) * -2px) calc(var(--py, 0) * -2px); }
 .hero-orbit      { translate: calc(var(--px, 0) * 3px)  calc(var(--py, 0) * 3px); }
-.tile-peek       { translate: calc(var(--px, 0) * 7px)  calc(var(--py, 0) * 5px); }
-.portrait__disc, .portrait__frame, .portrait img, .hero-orbit, .tile-peek { transition: translate 600ms cubic-bezier(.2, .7, .3, 1); }
+.portrait__disc, .portrait__frame, .portrait img, .hero-orbit { transition: translate 600ms cubic-bezier(.2, .7, .3, 1); }
 
 /* 7 — a dot travels down the scroll-cue line a few times */
 .scroll-cue::after {
@@ -958,7 +940,6 @@ html.js:not(.seen) .intro .portrait   { animation: appear 900ms var(--ease) 900m
 html.js:not(.seen) .intro .hero-orbit { animation: orbit-draw 1500ms cubic-bezier(.6, 0, .25, 1) 1200ms both; }
 html.js:not(.seen) .intro .hero-spark--knot { animation-delay: 2300ms, 3000ms; }
 html.js:not(.seen) .intro .hero-spark--end  { animation-delay: 2700ms, 3400ms; }
-html.js:not(.seen) .intro .tile-peek  { animation: appear 700ms var(--ease) 2600ms both; }
 html.js:not(.seen) .intro .scroll-cue { animation: cue-in 700ms var(--ease) 2800ms both; }
 html.js:not(.seen) .scroll-cue::after { animation-delay: 3.6s; }
 /* returning in the same visit: everything is already in place */
@@ -977,7 +958,6 @@ html.seen .scroll-cue::after { animation: none; }
 @media (max-width: 1080px) {
   .intro { min-height: calc(100svh - 84px); justify-content: flex-start; padding-top: clamp(48px, 11svh, 120px); }
   .hero-orbit { top: 2%; }
-  .tile-peek { width: 84px; right: calc(-1 * var(--gutter) - 34px); bottom: calc(14% + 18px); border-radius: 7px; }
   .now { font-size: .78rem; margin-top: .8rem; }
 }
 @media (max-width: 640px) {
@@ -995,7 +975,7 @@ html.seen .scroll-cue::after { animation: none; }
 
 @media (prefers-reduced-motion: reduce) {
   html.js .intro *, .scroll-cue::after { animation: none !important; }
-  .portrait__disc, .portrait__frame, .portrait img, .hero-orbit, .tile-peek { translate: none; transition: none; }
+  .portrait__disc, .portrait__frame, .portrait img, .hero-orbit { translate: none; transition: none; }
   .rotator { transition: none; }
   .spark-bit { display: none; }
   ::view-transition-new(root) { animation: none; }
