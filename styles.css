@@ -86,12 +86,11 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ----------------------------------------------------------------- intro -- */
 .intro {
   display: flex; flex-direction: column;
-  max-width: 760px;
 }
 /* Introduction on the left, headshot on the right; the text's last line
    (the short rule) sits level with the bottom of the photo. */
 .intro__row {
-  display: flex; align-items: flex-end;
+  display: flex; align-items: flex-end; justify-content: space-between;
   gap: clamp(24px, 4vw, 72px);
 }
 .intro__text { flex: 0 1 auto; min-width: 0; }
@@ -383,7 +382,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 
 @media (max-width: 1080px) {
   .layout, .site-footer { grid-template-columns: 1fr; }
-  .intro { position: static; max-width: 720px; }
+  .intro { position: static; }
   .portrait { --w: clamp(130px, 36vw, 240px); margin-left: 0; }
   .mural { margin-top: clamp(40px, 7vw, 64px); }
 }
