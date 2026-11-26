@@ -102,3 +102,59 @@
     }
   });
 })();
+
+// Tactile tiles & small motions: cursor light and tilt on tiles, Work tiles
+// settling into place, and the Wander note writing itself out.
+(() => {
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)');
+
+  // 3 + 5 — light follows the cursor, the tile tilts toward it (desktop only).
+  document.querySelectorAll('.tile').forEach((tile) => {
+    let frame = 0;
+    tile.addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse' || !finePointer.matches || still.matches) return;
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const r = tile.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width;
+        const y = (e.clientY - r.top) / r.height;
+        tile.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
+        tile.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+        tile.style.setProperty('--glow', '1');
+        tile.style.setProperty('--rx', `${((0.5 - y) * 7).toFixed(2)}deg`);
+        tile.style.setProperty('--ry', `${((x - 0.5) * 7).toFixed(2)}deg`);
+        tile.classList.add('is-tilting');
+      });
+    });
+    tile.addEventListener('pointerleave', () => {
+      cancelAnimationFrame(frame);
+      tile.classList.remove('is-tilting');
+      ['--glow', '--rx', '--ry'].forEach((p) => tile.style.removeProperty(p));
+    });
+  });
+
+  if (!('IntersectionObserver' in window)) return;
+
+  // 6 — Work tiles are laid one after another the first time Work is in view.
+  const work = document.querySelector('.tiles--work');
+  if (work && !still.matches) {
+    [...work.children].forEach((t, i) => t.style.setProperty('--i', i));
+    work.classList.add('is-waiting');
+    new IntersectionObserver((entries, io) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      work.classList.replace('is-waiting', 'is-laid');
+      io.disconnect();
+    }, { threshold: 0.2 }).observe(work);
+  }
+
+  // 7 — the handwritten note beside Wander writes itself out once.
+  const note = document.querySelector('.scribble');
+  if (note) {
+    new IntersectionObserver((entries, io) => {
+      if (!entries.some((en) => en.isIntersecting)) return;
+      note.classList.add('is-written');
+      io.disconnect();
+    }, { rootMargin: '0px 0px -25% 0px' }).observe(note.closest('h2'));
+  }
+})();
