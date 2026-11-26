@@ -131,7 +131,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   background:
     radial-gradient(80% 70% at 50% 22%, rgb(185 154 239 / .45), transparent 70%),
     linear-gradient(180deg, #5B36B0 0%, #3B2470 50%, #241A3E 100%);
-  opacity: .6;
+  opacity: .4;
 }
 .portrait img {
   position: relative;
