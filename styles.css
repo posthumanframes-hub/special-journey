@@ -78,8 +78,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ---------------------------------------------------------------- layout -- */
 .layout {
   display: grid;
-  grid-template-columns: minmax(440px, 36%) 1fr;
-  column-gap: clamp(32px, 4vw, 80px);
+  grid-template-columns: 1fr;
   padding: clamp(12px, 3vw, 48px) var(--gutter) 0;
   align-items: start;
 }
@@ -87,7 +86,6 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ----------------------------------------------------------------- intro -- */
 .intro {
   display: flex; flex-direction: column;
-  position: sticky; top: clamp(12px, 3vw, 48px);
 }
 /* Headshot on the left, introduction on its right, centred on each other. */
 .intro__row {
@@ -123,7 +121,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   position: relative;
   width: var(--w);
   flex: none;
-  margin-left: calc(var(--w) * -0.07);
+  margin-left: calc(var(--w) * -0.17);
 }
 .portrait::before {
   content: "";
@@ -150,6 +148,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 /* ----------------------------------------------------------------- mural -- */
 .mural {
   container: mural / inline-size;
+  margin-top: clamp(48px, 9vh, 110px);
   display: flex; flex-direction: column; gap: clamp(72px, 14vh, 150px);
   padding-top: .9rem; padding-bottom: clamp(56px, 12vh, 140px);
 }
@@ -185,7 +184,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   position: absolute; left: 0; top: 0;
   /* --s is the tile's size in units: 4 = base size, 6 = 1.5x, 8 = 2x */
   width: calc(var(--s, 4) * 100% / var(--span) - var(--seam));
-  margin-left: calc(var(--x, 0) * 100% / var(--span) + var(--seam) / 2);
+  margin-left: calc((var(--x, 0) * var(--xs, 1) + var(--ox, 0)) * 100% / var(--span) + var(--seam) / 2);
   margin-top: calc(var(--y, 0) * 100% / var(--span) + var(--seam) / 2);
 }
 
@@ -214,6 +213,14 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   translate: calc(var(--dx, 0px) * (1 - var(--p, 1))) calc(var(--dy, 0px) * (1 - var(--p, 1)));
   scale: calc(1 + (var(--ds, 1) - 1) * (1 - var(--p, 1)));
   will-change: translate, scale;
+}
+
+/* Wide screens: nine base tiles across. Work shifts in from the left;
+   Wander's horizontal positions stretch to use the full width. */
+@container mural (width >= 1200px) {
+  .tiles { --span: 36; }
+  .tiles--work { --ox: 10; }
+  .tiles--wander { --xs: 1.6; }
 }
 
 /* Narrower mural: four base tiles across. */
@@ -394,9 +401,9 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 
 @media (max-width: 1080px) {
   .layout, .site-footer { grid-template-columns: 1fr; }
-  .intro { max-width: 620px; position: static; height: auto; min-height: 0; }
+  .intro { max-width: 620px; }
   .portrait { --w: clamp(96px, 26vw, 150px); margin-left: -4px; }
-  .mural { padding-top: clamp(40px, 7vw, 64px); }
+  .mural { margin-top: clamp(40px, 7vw, 64px); }
 }
 
 @media (max-width: 640px) {
