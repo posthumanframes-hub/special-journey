@@ -125,8 +125,8 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .portrait img { position: relative; width: 100%; height: auto; }
 .portrait__disc, .portrait__frame, .hero-deco, .scroll-cue { display: none; }
 
-/* ------------------------------------------------------------ desktop hero -- */
-@media (min-width: 1081px) {
+/* -------------------------------------------------------------------- hero -- */
+@media all {
   /* The first screen is the introduction alone; Work starts below the fold. */
   .intro {
     position: relative;
@@ -191,6 +191,32 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   .scroll-cue span::after { content: " ↓"; letter-spacing: 0; color: var(--lilac); }
   .scroll-cue:hover span { color: var(--lilac); }
   .mural { margin-top: clamp(48px, 8vh, 96px); }
+}
+
+/* Hero on tablets and phones: same elements, scaled down. */
+@media (max-width: 1080px) {
+  .intro {
+    position: relative;
+    min-height: calc(100svh - 96px);
+    padding: 0 0 0 9%;
+  }
+  .portrait__disc { right: -14%; width: 56%; }
+  .intro__row { gap: 18px; }
+  .portrait { --w: clamp(130px, 38vw, 260px); margin-right: 3%; }
+  .hero-orbit { left: 0; right: 4%; top: 4%; bottom: 14%;
+    border-bottom-left-radius: 22vw 18svh; }
+  .hero-spark { width: 14px; height: 14px; }
+  .hero-spark--end { right: calc(4% - 7px); bottom: calc(14% - 7px); }
+  .hero-spark--knot { left: calc(22vw - 7px); bottom: calc(14% - 7px); }
+  .scroll-cue { left: 22vw; height: 14%; padding-top: 22px; font-size: .66rem; letter-spacing: .2em; }
+  .scroll-cue::before { top: 7px; }
+  .short-rule { margin-top: 1.4rem; }
+}
+@media (max-width: 380px) {
+  .intro { padding-left: 7%; }
+  .intro__row { gap: 12px; }
+  .portrait { --w: 34vw; margin-right: 2%; }
+  .role { font-size: .95rem; }
 }
 
 /* ----------------------------------------------------------------- mural -- */
@@ -452,8 +478,7 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
 
 @media (max-width: 1080px) {
   .layout, .site-footer { grid-template-columns: 1fr; }
-  .intro { position: static; }
-  .portrait { --w: clamp(130px, 36vw, 240px); margin-left: 0; }
+
   .mural { margin-top: clamp(40px, 7vw, 64px); }
 }
 
