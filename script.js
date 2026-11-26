@@ -40,6 +40,52 @@
     });
   });
 
+  // Wander drift: each Wander tile starts at the matching Work tile's place in
+  // the cluster and eases out to its own, wider position as the section
+  // scrolls into view. With reduced motion, tiles simply sit in place.
+  const workList = document.querySelector('.tiles--work');
+  const wanderList = document.querySelector('.tiles--wander');
+  const still = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (workList && wanderList) {
+    const work = [...workList.children];
+    const wander = [...wanderList.children];
+    let ticking = false;
+
+    const measure = () => {
+      wander.forEach((tile, i) => {
+        const home = work[i];
+        const dx = home ? home.offsetLeft - tile.offsetLeft : 0;
+        const dy = home ? home.offsetTop - tile.offsetTop : 0;
+        tile.style.setProperty('--dx', `${dx}px`);
+        tile.style.setProperty('--dy', `${dy}px`);
+      });
+    };
+
+    const update = () => {
+      ticking = false;
+      if (still.matches) { wanderList.style.setProperty('--p', 1); return; }
+      const vh = window.innerHeight;
+      const top = wanderList.getBoundingClientRect().top;
+      // 0 when the group's top meets the bottom of the screen,
+      // 1 once it has risen to a fifth of the way down.
+      const t = Math.min(1, Math.max(0, (vh - top) / (vh * 0.8)));
+      const eased = t * t * (3 - 2 * t);
+      wanderList.style.setProperty('--p', eased.toFixed(4));
+    };
+
+    const request = () => {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    };
+
+    measure();
+    update();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', () => { measure(); request(); });
+    still.addEventListener('change', request);
+    if (document.fonts) document.fonts.ready.then(() => { measure(); update(); });
+  }
+
   // Tap elsewhere or press Escape to turn the tile back over.
   document.addEventListener('click', (e) => {
     if (active && !active.contains(e.target)) show(null);
