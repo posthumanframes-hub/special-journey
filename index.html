@@ -21,6 +21,14 @@
   <!-- Shared ornament: a four-point spark, used sparingly -->
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="spark" viewBox="0 0 24 24"><path d="M12 0C12.9 8 16 11.1 24 12 16 12.9 12.9 16 12 24 11.1 16 8 12.9 0 12 8 11.1 11.1 8 12 0Z"/></symbol>
+    <!-- Hair breeze: noise that grows toward the strand ends drives a gentle displacement -->
+    <filter id="hair-breeze" x="-4%" y="-4%" width="108%" height="108%" color-interpolation-filters="sRGB">
+      <feTurbulence type="fractalNoise" baseFrequency="0.004 0.018" numOctaves="2" seed="7" result="noise"/>
+      <feColorMatrix in="noise" type="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 0 1" result="opaque"/>
+      <feImage href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='100' preserveAspectRatio='none'%3E%3ClinearGradient id='g' x2='0' y2='1'%3E%3Cstop offset='.3' stop-color='%23000'/%3E%3Cstop offset='.85' stop-color='%23fff'/%3E%3C/linearGradient%3E%3Crect width='10' height='100' fill='url(%23g)'/%3E%3C/svg%3E" preserveAspectRatio="none" result="ramp"/>
+      <feComposite in="opaque" in2="ramp" operator="arithmetic" k1="1" k2="0" k3="-0.5" k4="0.5" result="map"/>
+      <feDisplacementMap id="hair-disp" in="SourceGraphic" in2="map" scale="0" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
     <symbol id="arrow" viewBox="0 0 20 12"><path d="M0 6h17M12.5 1.5 17.5 6l-5 4.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </svg>
 
@@ -63,6 +71,7 @@
           <span class="portrait__disc" aria-hidden="true"></span>
           <span class="portrait__frame" aria-hidden="true"></span>
           <img src="assets/portrait-815.webp" srcset="assets/portrait-815.webp 815w, assets/portrait.webp 1629w" sizes="(max-width: 1080px) min(36vw, 240px), min(20vw, 330px)" width="815" height="1086" alt="Photograph of Harini: long dark hair with violet streaks, gold hoop earrings and a black ruffled-neck top.">
+          <img src="assets/portrait-815.webp" srcset="assets/portrait-815.webp 815w, assets/portrait.webp 1629w" sizes="(max-width: 1080px) min(36vw, 240px), min(20vw, 330px)" width="815" height="1086" alt="" class="portrait__hair" aria-hidden="true">
         </figure>
       </div>
       <a class="scroll-cue" href="#work"><span>Scroll to see work</span></a>
