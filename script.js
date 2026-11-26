@@ -69,9 +69,11 @@
       if (still.matches) { wanderList.style.setProperty('--p', 1); return; }
       const vh = window.innerHeight;
       const top = wanderList.getBoundingClientRect().top;
-      // 0 when the group's top meets the bottom of the screen,
-      // 1 once it has risen to a fifth of the way down.
-      const t = Math.min(1, Math.max(0, (vh - top) / (vh * 0.8)));
+      // Stays packed until the tiles are well in view (their top has risen
+      // past 55% of the screen), then spreads over the next ~65% of a screen
+      // of scrolling.
+      const start = vh * 0.55, span = vh * 0.65;
+      const t = Math.min(1, Math.max(0, (start - top) / span));
       const eased = t * t * (3 - 2 * t);
       wanderList.style.setProperty('--p', eased.toFixed(4));
     };

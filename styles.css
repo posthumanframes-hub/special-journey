@@ -88,10 +88,11 @@ h1, h2, h3, p, figure, ul { margin: 0; }
 .intro {
   display: flex; flex-direction: column;
   position: sticky; top: clamp(12px, 3vw, 48px);   /* stays in view while the tiles scroll */
+  text-align: center;
 }
-/* Headshot on top, introduction beneath it. */
+/* Headshot on top, introduction beneath it, centred in the column. */
 .intro__row {
-  display: flex; flex-direction: column; align-items: flex-start;
+  display: flex; flex-direction: column; align-items: center;
   gap: clamp(20px, 3vh, 32px);
 }
 .intro__text { min-width: 0; }
@@ -100,6 +101,7 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   letter-spacing: -.01em;
   color: var(--ivory);
 }
+.intro h1 { padding-left: .62em; }   /* balance the sparkle so the words sit centred */
 .spark--title { width: .42em; height: .42em; margin-left: .3em; vertical-align: .32em; }
 
 .role {
@@ -107,11 +109,12 @@ h1, h2, h3, p, figure, ul { margin: 0; }
   font: italic 400 clamp(1.1rem, 1.35vw, 1.45rem)/1.3 var(--serif);
   color: var(--ivory);
   max-width: 26ch;
+  margin-inline: auto;
 }
 .role em { color: var(--lilac); }
 
 .short-rule {
-  width: 36px; height: 0; margin: 1.2rem 0 0;
+  width: 36px; height: 0; margin: 1.2rem auto 0;
   border: 0; border-top: 1.5px solid var(--ivory);
 }
 
@@ -387,7 +390,6 @@ html:not(.js) .tile:focus-within .tile__inner { transform: rotateY(180deg); }
   .intro { position: static; max-width: 620px; margin-inline: auto; text-align: center; }
   .intro__row { align-items: center; }
   .portrait { --w: clamp(225px, 66vw, 315px); margin-left: 0; }
-  .intro h1 { padding-left: .62em; }   /* balance the sparkle so the words sit centred */
   .role { margin-inline: auto; }
   .short-rule { margin-inline: auto; }
   .mural { margin-top: clamp(40px, 7vw, 64px); }
