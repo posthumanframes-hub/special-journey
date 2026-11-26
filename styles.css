@@ -1081,3 +1081,88 @@ html.seen .scroll-cue::after { animation: none; }
   border-radius: 0 100% 0 10px;
   box-shadow: inset -1px 1px 0 rgb(var(--frame) / .55);
 }
+
+/* =====================================================================
+   Link under the Work tiles, and the Athangudi notes page
+   ===================================================================== */
+.tiles-note {
+  display: flex; align-items: center; gap: .55em;
+  margin-top: clamp(28px, 4vh, 44px);
+  font: 400 .85rem/1.4 var(--sans); color: var(--muted-text);
+}
+.tiles-note .spark { width: 11px; height: 11px; }
+.tiles-note a {
+  color: var(--text);
+  text-decoration: underline; text-decoration-color: rgb(var(--orbit) / .6);
+  text-underline-offset: 4px; text-decoration-thickness: 1px;
+}
+.tiles-note a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+.article {
+  max-width: 760px; margin: 0 auto;
+  padding: clamp(24px, 5vh, 56px) var(--gutter) clamp(64px, 12vh, 120px);
+}
+.back-link {
+  display: inline-flex; align-items: center; gap: .6em; min-height: 44px;
+  font: 500 .74rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase;
+  color: var(--text); text-decoration: none;
+}
+.back-link svg { width: 18px; height: 11px; rotate: 180deg; transition: translate 200ms var(--ease); }
+.back-link:hover { color: var(--accent); }
+.back-link:hover svg { translate: -3px 0; }
+
+.article__head { margin: clamp(28px, 6vh, 64px) 0 clamp(36px, 6vh, 64px); }
+.article__kicker {
+  font: 500 .74rem/1.3 var(--sans); letter-spacing: .24em; text-transform: uppercase;
+  color: var(--accent);
+}
+.article h1 {
+  margin-top: .6rem;
+  font: 400 clamp(2.4rem, 5vw, 3.8rem)/1.08 var(--serif); letter-spacing: -.015em;
+  color: var(--heading);
+}
+.article h1 .name { font: 500 1.2em/1 var(--hand); letter-spacing: 0; margin-right: .12em; }
+.article__lede {
+  margin-top: 1.4rem; max-width: 36ch;
+  font: 400 clamp(1.1rem, 1.6vw, 1.3rem)/1.55 var(--sans); color: var(--text);
+}
+
+.article__section { padding-top: clamp(28px, 5vh, 48px); border-top: 1px solid var(--divider); margin-top: clamp(28px, 5vh, 48px); }
+.article__section h2 {
+  font: 400 clamp(1.5rem, 2.4vw, 2rem)/1.2 var(--serif); color: var(--heading);
+  margin-bottom: 1rem;
+}
+.article__section p { max-width: 62ch; font-size: 1.02rem; line-height: 1.75; color: var(--text); }
+.article__section p + p { margin-top: 1.1rem; }
+.article__section a { color: var(--accent); text-underline-offset: 3px; }
+
+.motifs {
+  list-style: none; padding: 0; margin-top: 2rem;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
+  gap: 22px 28px;
+}
+.motif { display: flex; gap: 16px; align-items: flex-start; }
+.motif__tile {
+  flex: none; width: 72px; aspect-ratio: 1; border-radius: 8px; overflow: hidden;
+  box-shadow: 0 0 0 1px rgb(21 18 28 / .3), 0 3px 2px var(--cast-1), 0 10px 18px -8px var(--cast-2);
+}
+.motif__tile img { width: 100%; height: 100%; }
+.motif__tile .art-light { display: none; }
+:root:not([data-theme="dark"]) .motif__tile .art-light { display: block; }
+:root:not([data-theme="dark"]) .motif__tile .art-dark { display: none; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .motif__tile .art-light { display: none; }
+  :root:not([data-theme="light"]) .motif__tile .art-dark { display: block; }
+}
+.motif__text { font-size: .92rem; line-height: 1.5; color: var(--text); }
+.motif__text strong { font: 500 1.1rem/1.2 var(--serif); color: var(--heading); }
+.motif__en { color: var(--accent); margin-left: .35em; }
+.motif__desc { display: block; margin-top: .3rem; color: var(--muted-text); }
+
+.article__end { margin-top: clamp(40px, 7vh, 72px); }
+.article__end a {
+  display: inline-flex; align-items: center; gap: .7em; min-height: 44px;
+  font: 400 1.35rem/1 var(--serif); color: var(--heading);
+  text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 6px;
+}
+.article__end svg { width: 20px; height: 12px; color: var(--accent); }
